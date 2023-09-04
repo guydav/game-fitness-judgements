@@ -18,7 +18,7 @@
     "setup_project": "sh scripts/setup_project.sh",
     "force_deploy": "sh scripts/force_deploy.sh",
     "upload_config": "sh scripts/update_config.sh",
-    "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/styles.css",
+    "css-build": "sass sass/mystyles.scss css/styles.css",
     "css-watch": "npm run css-build -- --watch"
   },
   "dependencies": {
@@ -54,7 +54,6 @@
     "bulma-extensions": "^6.2.7",
     "c8": "^7.11.3",
     "chalk": "^5.0.1",
-    "cypress": "^10.3.1",
     "dotenv": "^16.0.1",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -66,7 +65,6 @@
     "happy-dom": "^5.3.1",
     "inquirer": "^9.0.0",
     "markdown-it-footnote": "^3.0.3",
-    "node-sass": "^7.0.1",
     "prettier": "^2.7.1",
     "sass": "^1.52.1",
     "shelljs": "^0.8.5",
