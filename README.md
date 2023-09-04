@@ -11,3 +11,15 @@ Online docs: [https://smile.gureckislab.org](https://smile.gureckislab.org)
 - [Node.js](https://nodejs.org/en/download/)
 - A git client
 - The [GitHub command line tool](https://cli.github.com)
+
+## TODOs 
+ - [ ] Informed consent -- copy from previous experiments
+ - [ ] Instructions -- do at the end once I finalize the structure
+ - [ ] Two-game comparison component
+ - [ ] One game evaluation component
+ - [ ] (Optional: something to highlight which lines of the game caused the judgment?)
+ - [ ] Higher-level logic of sampling which games and which comparison cases within each game to show
+ - [ ] Dataset of games in firestore, and loading them
+ - [ ] Test
+ - [ ] ...
+ - [ ] Profit?!

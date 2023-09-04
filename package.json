@@ -70,6 +70,7 @@
     "shelljs": "^0.8.5",
     "vite": "^2.9.9",
     "vitepress": "^1.0.0-alpha.2",
-    "vitest": "^0.16.0"
+    "vitest": "^0.16.0",
+    "volar-service-vetur": "latest"
   }
 }
