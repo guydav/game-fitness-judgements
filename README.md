@@ -13,15 +13,16 @@ Online docs: [https://smile.gureckislab.org](https://smile.gureckislab.org)
 - The [GitHub command line tool](https://cli.github.com)
 
 ## TODOs 
- - [ ] Informed consent -- copy from previous experiments
+ - [x] Informed consent -- copy from previous experiments
+ - [ ] **TODO**: figure out estimated length, pay and bonus amounts -- also update in .env config
  - [ ] Instructions -- do at the end once I finalize the structure
- - [ ] Change the advertisement page text?
+ - [x] Change the advertisement page text?
  - [ ] Update study preview text?
  - [x] Two-game comparison component
  - [x] One game evaluation component
  - [x] (Optional: something to highlight which lines of the game caused the judgment?)
  - [ ] Higher-level logic of sampling which games and which comparison cases within each game to show
- - [ ] Dataset of games in firestore, and loading them
+ - [x] Dataset of games ~in firestore, and loading them~ -- loading from a json file
  - [ ] Test
  - [ ] ...
  - [ ] Profit?!

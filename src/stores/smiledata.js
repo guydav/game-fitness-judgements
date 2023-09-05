@@ -1,7 +1,8 @@
-import { defineStore } from 'pinia'
+import { defineStore, acceptHMRUpdate } from 'pinia'
 import { useStorage } from '@vueuse/core'
 import axios from 'axios'
 import appconfig from '@/config'
+import gamesDataJson from '../../data/games.json';
 
 import {
   createDoc,
@@ -13,7 +14,7 @@ import {
 } from './firestore-db'
 
 
-export default defineStore('smilestore', {
+const useSmileStore = defineStore('smilestore', {
   // arrow function recommended for full type inference
   state: () => ({
     local: useStorage(appconfig.local_storage_key, {
@@ -30,7 +31,8 @@ export default defineStore('smilestore', {
       seedID: '',
       seedSet: false,
       pageTracker: 0,
-      possibleConditions: {taskOrder: ["AFirst", "BFirst"], instructions: ["version1", "version2", "version3"]},
+      possibleConditions: { taskOrder: ["AFirst", "BFirst"], instructions: ["version1", "version2", "version3"] },
+      gamesData: null,
     }, localStorage, { mergeDefaults: true }),
     global: {
       // ephemeral state, resets on browser refresh
@@ -63,6 +65,8 @@ export default defineStore('smilestore', {
       route_order: [],
       conditions: {},
       smile_config: appconfig, //  adding config info to firebase document
+      single_game_results: [],
+      paired_game_results: [],
     },
     config: appconfig,
   }),
@@ -81,6 +85,9 @@ export default defineStore('smilestore', {
     getPage: (state) => state.local.pageTracker,
     getPossibleConditions: (state) => state.local.possibleConditions,
     getConditions: (state) => state.data.conditions,
+    getSingleGameResults: (state) => state.data.single_game_results,
+    getPairedGameResults: (state) => state.data.paired_game_results,
+    getGamesData: (state) => state.local.gamesData,
   },
 
   actions: {
@@ -260,6 +267,27 @@ export default defineStore('smilestore', {
       // this.global.db_connected = false
       this.$reset()
     },
+    recordSingleGameResults(gameId, rating, reasoning, highlightedText) {
+      const results = { gameId, rating, reasoning, highlightedText, };
+      this.data.single_game_results.push(results);
+    },
+    recordPairedGameResults(leftGameId, rightGameId, rating, reasoning, leftHighlightedText, rightHighlightedText) {
+      const results = { leftGameId, rightGameId, rating, reasoning, leftHighlightedText, rightHighlightedText };
+      this.data.paired_game_results.push(results);
+    },
+    loadGamesData() {
+      if (this.local.gamesData === null) {
+        this.local.gamesData = gamesDataJson;
+        console.log(`gamesData loaded from json with length ${this.local.gamesData.length}`);
+      }
+
+      return this.local.gamesData;
+    }
   },
 })
 
+if (import.meta.hot) {
+  import.meta.hot.accept(acceptHMRUpdate(useSmileStore, import.meta.hot))
+}
+
+export default useSmileStore;

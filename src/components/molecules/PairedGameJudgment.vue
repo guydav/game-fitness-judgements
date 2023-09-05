@@ -15,23 +15,23 @@ import { onMounted, ref, watchEffect } from 'vue';
 let slider = null;
 const rating = ref(50);
 const reasoning = ref('');
-const highlightedTextLeft = ref('');
-const highlightedTextRight = ref('');
+const leftHighlightedText = ref('');
+const rightHighlightedText = ref('');
 
-const gameTextDisplayRefLeft = ref(null);
-const gameTextDisplayRefRight = ref(null);
+const leftGameTextDisplayRef = ref(null);
+const rightGameTextDisplayRef = ref(null);
 
 
 const props = defineProps({
-    gameLeft: String,
-    gameRight: String
+    leftGame: String,
+    rightGame: String
 })
 
 defineExpose({
     rating,
     reasoning,
-    highlightedTextLeft,
-    highlightedTextRight
+    leftHighlightedText,
+    rightHighlightedText
 })
 
 onMounted(() => {
@@ -39,12 +39,12 @@ onMounted(() => {
 })
 
 watchEffect(() => {
-    if (gameTextDisplayRefLeft.value) {
-        highlightedTextLeft.value = gameTextDisplayRefLeft.value.highlightedText;
+    if (leftGameTextDisplayRef.value) {
+        leftHighlightedText.value = leftGameTextDisplayRef.value.highlightedText;
     }
 
-    if (gameTextDisplayRefRight.value) {
-        highlightedTextRight.value = gameTextDisplayRefRight.value.highlightedText;
+    if (rightGameTextDisplayRef.value) {
+        rightHighlightedText.value = rightGameTextDisplayRef.value.highlightedText;
     }
 })
 
@@ -61,10 +61,10 @@ watchEffect(() => {
                     </div>
                     <div class="columns">
                         <div class="column">
-                            <GameTextDisplay :game="props.gameLeft" ref="gameTextDisplayRefLeft"></GameTextDisplay>
+                            <GameTextDisplay :game="props.leftGame" ref="leftGameTextDisplayRef"></GameTextDisplay>
                         </div>
                         <div class="column">
-                            <GameTextDisplay :game="props.gameRight" ref="gameTextDisplayRefRight"></GameTextDisplay>
+                            <GameTextDisplay :game="props.rightGame" ref="rightGameTextDisplayRef"></GameTextDisplay>
                         </div>
                     </div>
                     
@@ -98,14 +98,14 @@ watchEffect(() => {
                             <div class="field column">
                                 <label for="game-rating-highlighted-left" class="label has-text-left">Left game relevant highlighted text</label>
                                 <div class="control">
-                                    <textarea id="game-rating-highlighted-left" class="textarea is-italic" placeholder="Please highlight the part of the left-hand game that was most influential to your judgment" v-model="highlightedTextLeft"></textarea>
+                                    <textarea id="game-rating-highlighted-left" class="textarea is-italic" placeholder="Please highlight the part of the left-hand game that was most influential to your judgment" v-model="leftHighlightedText"></textarea>
                                 </div>
                             </div>
 
                             <div class="field column">
                                 <label for="game-rating-highlighted-right" class="label has-text-left">Right game relevant highlighted text</label>
                                 <div class="control">
-                                    <textarea id="game-rating-highlighted-right" class="textarea is-italic" placeholder="Please highlight the part of the right-hand game that was most influential to your judgment" v-model="highlightedTextRight"></textarea>
+                                    <textarea id="game-rating-highlighted-right" class="textarea is-italic" placeholder="Please highlight the part of the right-hand game that was most influential to your judgment" v-model="rightHighlightedText"></textarea>
                                 </div>
                             </div>
                         </div>

@@ -29,7 +29,7 @@ function finish(goto) {
         <img src="@/assets/brain.svg" width="220">
         <h1 class="title is-3">Please help us understand the mind!</h1>
         <p>
-            Take part in a short experiment where you play a game for money.
+            Take part in a short experiment where you make judgments about descriptions of games for money.
         </p>
         <br>
         <button class="button is-warning" id='finish' @click="finish(next())">I'm ready! &nbsp;<FAIcon icon="fa-solid fa-arrow-right" /></button>
