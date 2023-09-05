@@ -15,9 +15,11 @@ Online docs: [https://smile.gureckislab.org](https://smile.gureckislab.org)
 ## TODOs 
  - [ ] Informed consent -- copy from previous experiments
  - [ ] Instructions -- do at the end once I finalize the structure
- - [ ] Two-game comparison component
- - [ ] One game evaluation component
- - [ ] (Optional: something to highlight which lines of the game caused the judgment?)
+ - [ ] Change the advertisement page text?
+ - [ ] Update study preview text?
+ - [x] Two-game comparison component
+ - [x] One game evaluation component
+ - [x] (Optional: something to highlight which lines of the game caused the judgment?)
  - [ ] Higher-level logic of sampling which games and which comparison cases within each game to show
  - [ ] Dataset of games in firestore, and loading them
  - [ ] Test

@@ -82,33 +82,33 @@ timeline.pushSeqRoute({
 })
 
 // demographic survery
-timeline.pushSeqRoute({
-  path: '/demograph',
-  name: 'demograph',
-  component: DemographicSurvey,
-  // beforeEnter: (to, from) => {
-  //   // before loading this route, identify the user
-  //   const smilestore = useSmileStore()
-  //   if (!smilestore.isKnownUser) {
-  //     console.log('not known')
-  //     smilestore.setKnown() // set new user and add document
-  //   }
-  // },
-})
+// timeline.pushSeqRoute({
+//   path: '/demograph',
+//   name: 'demograph',
+//   component: DemographicSurvey,
+//   // beforeEnter: (to, from) => {
+//   //   // before loading this route, identify the user
+//   //   const smilestore = useSmileStore()
+//   //   if (!smilestore.isKnownUser) {
+//   //     console.log('not known')
+//   //     smilestore.setKnown() // set new user and add document
+//   //   }
+//   // },
+// })
 
 // windowsizer
-timeline.pushSeqRoute({
-  path: '/windowsizer',
-  name: 'windowsizer',
-  component: WindowSizer,
-})
+// timeline.pushSeqRoute({
+//   path: '/windowsizer',
+//   name: 'windowsizer',
+//   component: WindowSizer,
+// })
 
 // captcha
-timeline.pushSeqRoute({
-  path: '/captcha',
-  name: 'captcha',
-  component: Captcha,
-})
+// timeline.pushSeqRoute({
+//   path: '/captcha',
+//   name: 'captcha',
+//   component: Captcha,
+// })
 
 // instructions
 timeline.pushSeqRoute({
@@ -124,27 +124,40 @@ timeline.pushSeqRoute({
   component: Exp,
 })
 
-// create subtimeline for randomization
-const randTimeline = new RandomSubTimeline()
-
-randTimeline.pushRoute({
+// Temporarily outside of randomization for debugging
+timeline.pushSeqRoute({
   path: '/task1',
   name: 'task1',
   component: Task1,
 })
 
-randTimeline.pushRoute({
+timeline.pushSeqRoute({
   path: '/task2',
   name: 'task2',
   component: Task2,
 })
 
-// if you want fixed orders based on conditions, uncomment meta line
-// commented out, this will shuffle the routes at random
-timeline.pushRandomizedTimeline({
-  name: randTimeline,
-  // meta: { label: "taskOrder", orders: {AFirst: ["task1", "task2"], BFirst: ["task2", "task1"]} }
-})
+// create subtimeline for randomization
+// const randTimeline = new RandomSubTimeline()
+
+// randTimeline.pushRoute({
+//   path: '/task1',
+//   name: 'task1',
+//   component: Task1,
+// })
+
+// randTimeline.pushRoute({
+//   path: '/task2',
+//   name: 'task2',
+//   component: Task2,
+// })
+
+// // if you want fixed orders based on conditions, uncomment meta line
+// // commented out, this will shuffle the routes at random
+// timeline.pushRandomizedTimeline({
+//   name: randTimeline,
+//   // meta: { label: "taskOrder", orders: {AFirst: ["task1", "task2"], BFirst: ["task2", "task1"]} }
+// })
 
 
 // debriefing form

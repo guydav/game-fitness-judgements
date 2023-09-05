@@ -27,6 +27,8 @@ $dropdown-menu-min-width: 1rem;
     padding-left: 35px;
 }
 
+$section-padding: 2rem 1rem;
+
 
 // // Update some of Bulma's component variables
 // //$body-background-color: $beige-lighter;
@@ -35,3 +37,5 @@ $dropdown-menu-min-width: 1rem;
 // $input-shadow: none;
 
 @import "../node_modules/bulma/bulma.sass";
+// @import "../node_modules/bulma/sass/utilities/_all.sass";
+@import '../node_modules/bulma-slider/src/sass/index.sass';

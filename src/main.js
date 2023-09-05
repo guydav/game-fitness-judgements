@@ -6,6 +6,7 @@ import '@formkit/themes/genesis'
 import VueGtag from 'vue-gtag' // google analytics
 // import with an @ symbol are resolved by vite to ./src directory
 
+
 import App from '@/App.vue' // import the main app component
 import {router} from '@/router' // import the router
 import {pinia} from '@/createpinia'
