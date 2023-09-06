@@ -14,15 +14,17 @@ Online docs: [https://smile.gureckislab.org](https://smile.gureckislab.org)
 
 ## TODOs 
  - [x] Informed consent -- copy from previous experiments
- - [ ] **TODO**: figure out estimated length, pay and bonus amounts -- also update in .env config
- - [ ] Instructions -- do at the end once I finalize the structure
+ - [x] Instructions -- **TOD**: validate with someone
  - [x] Change the advertisement page text?
- - [ ] Update study preview text?
+ - [x] Update study preview text?
  - [x] Two-game comparison component
  - [x] One game evaluation component
  - [x] (Optional: something to highlight which lines of the game caused the judgment?)
- - [ ] Higher-level logic of sampling which games and which comparison cases within each game to show
- - [x] Dataset of games ~in firestore, and loading them~ -- loading from a json file
+ - [x] Figure out how to load games ~from firestore~ -- loading from a json file
+ - [ ] Large dataset of games -- Graham is on it
+ - [ ] Instructions understanding quiz
+ - [ ] Higher-level logic of sampling which games and which comparison cases within each game to showz
+ - [ ] **TODO**: figure out estimated length, pay and bonus amounts -- also update in .env config
  - [ ] Test
  - [ ] ...
  - [ ] Profit?!

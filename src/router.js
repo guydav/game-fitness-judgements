@@ -18,6 +18,7 @@ import Consent from '@/components/pages/ConsentPage.vue'
 import DemographicSurvey from '@/components/pages/DemographicSurveyPage.vue'
 import Captcha from '@/components/pages/CaptchaPage.vue'
 import Instructions from '@/components/pages/InstructionsPage.vue'
+import Quiz from '@/components/pages/QuizPage.vue'
 import Exp from '@/components/pages/ExpPage.vue'
 import Task1 from '@/components/pages/Task1Page.vue'
 import Task2 from '@/components/pages/Task2Page.vue'
@@ -104,17 +105,24 @@ timeline.pushSeqRoute({
 // })
 
 // captcha
-// timeline.pushSeqRoute({
-//   path: '/captcha',
-//   name: 'captcha',
-//   component: Captcha,
-// })
+timeline.pushSeqRoute({
+  path: '/captcha',
+  name: 'captcha',
+  component: Captcha,
+})
 
 // instructions
 timeline.pushSeqRoute({
   path: '/instructions',
   name: 'instructions',
   component: Instructions,
+})
+
+// quiz
+timeline.pushSeqRoute({
+  path: '/quiz',
+  name: 'quiz',
+  component: Quiz,
 })
 
 // main experiment

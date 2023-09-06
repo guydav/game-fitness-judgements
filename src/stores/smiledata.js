@@ -31,7 +31,7 @@ const useSmileStore = defineStore('smilestore', {
       seedID: '',
       seedSet: false,
       pageTracker: 0,
-      possibleConditions: { taskOrder: ["AFirst", "BFirst"], instructions: ["version1", "version2", "version3"] },
+      possibleConditions: { "task": ["single", "paired"] },
       gamesData: null,
     }, localStorage, { mergeDefaults: true }),
     global: {
@@ -67,6 +67,8 @@ const useSmileStore = defineStore('smilestore', {
       smile_config: appconfig, //  adding config info to firebase document
       single_game_results: [],
       paired_game_results: [],
+      quiz_form: [], // array of quiz attempts
+      quiz_attempts: 0,
     },
     config: appconfig,
   }),
@@ -88,6 +90,8 @@ const useSmileStore = defineStore('smilestore', {
     getSingleGameResults: (state) => state.data.single_game_results,
     getPairedGameResults: (state) => state.data.paired_game_results,
     getGamesData: (state) => state.local.gamesData,
+    getQuizAttempts: (state) => state.data.quiz_attempts,
+    getQuizForm: (state) => state.data.quiz_form,
   },
 
   actions: {
@@ -282,7 +286,13 @@ const useSmileStore = defineStore('smilestore', {
       }
 
       return this.local.gamesData;
-    }
+    },
+    incrementQuizAttempts(){
+      this.data.quiz_attempts += 1;
+    },
+    saveQuizForm(data) {
+      this.data.quiz_form.push(data);
+    },
   },
 })
 
