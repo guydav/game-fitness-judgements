@@ -105,11 +105,11 @@ timeline.pushSeqRoute({
 // })
 
 // captcha
-timeline.pushSeqRoute({
-  path: '/captcha',
-  name: 'captcha',
-  component: Captcha,
-})
+// timeline.pushSeqRoute({
+//   path: '/captcha',
+//   name: 'captcha',
+//   component: Captcha,
+// })
 
 // instructions
 timeline.pushSeqRoute({
