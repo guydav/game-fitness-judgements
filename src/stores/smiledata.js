@@ -221,7 +221,9 @@ const useSmileStore = defineStore('smilestore', {
         data = await loadDoc(this.local.docRef)
       }
       if (data) {
-        this.data = data
+        Object.entries(data).forEach(([key, value]) => {
+          this.data[key] = value;
+        });
         this.setDBConnected()
       }
     },
@@ -271,12 +273,10 @@ const useSmileStore = defineStore('smilestore', {
       // this.global.db_connected = false
       this.$reset()
     },
-    recordSingleGameResults(gameId, rating, reasoning, highlightedText) {
-      const results = { gameId, rating, reasoning, highlightedText, };
+    recordSingleGameResults(results) {
       this.data.single_game_results.push(results);
     },
-    recordPairedGameResults(leftGameId, rightGameId, rating, reasoning, leftHighlightedText, rightHighlightedText) {
-      const results = { leftGameId, rightGameId, rating, reasoning, leftHighlightedText, rightHighlightedText };
+    recordPairedGameResults(results) {
       this.data.paired_game_results.push(results);
     },
     loadGamesData() {

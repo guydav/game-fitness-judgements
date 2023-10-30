@@ -21,8 +21,8 @@ Online docs: [https://smile.gureckislab.org](https://smile.gureckislab.org)
  - [x] One game evaluation component
  - [x] (Optional: something to highlight which lines of the game caused the judgment?)
  - [x] Figure out how to load games ~from firestore~ -- loading from a json file
+ - [x] Instructions understanding quiz
  - [ ] Large dataset of games -- Graham is on it
- - [ ] Instructions understanding quiz
  - [ ] Higher-level logic of sampling which games and which comparison cases within each game to showz
  - [ ] **TODO**: figure out estimated length, pay and bonus amounts -- also update in .env config
  - [ ] Test

@@ -37,56 +37,56 @@ const QUIZ_QUESTIONS = [
         'correctAnswer': task === "single" ? 0 : 1,  // zero-based
     },
     {
-        'id': 'whatJudge',
-        'question': 'What will you be asked to judge in each trial?',
-        'multiSelect': false,
-        'answers': [
-            'Whether or not the game you are shown was created by a human',
-            'Which of the two games are you shown was more likely to be created by a human',
-            'Which game would be more fun to play',
-            'How difficult each of the games is'
-        ],
-        'correctAnswer': task === "single" ? 0 : 1,  // zero-based
-    },
-    {
         'id': 'howDescriptions',
         'question': 'How were the textual descriptions for the games you will see created?',
         'multiSelect': false,
         'answers': [
             'They were written by human participants in a previous study',
-            'They were written by a computer program',
+            'They were written by a computer translator program',
             'They were written by the researchers',
             'Some were written by human participants and some were written by a computer program'
         ],
         'correctAnswer': 1,  // zero-based
     },
     {
-        'id': 'slider',
-        'question': 'On the slider, what does 0 indicate, and what does 100?',
+        'id': 'textResponses',
+        'question': 'What will you be asked to write in your short responses for each trial?',
         'multiSelect': false,
         'answers': [
-            '0: The game was definitely created by a computer program; 100: The game was definitely created by a human',
-            '0: The game was definitely created by a human; 100:The game was definitely created by a computer program',
-            '0: The game on the left was definitely created by a human; 100: The game on the right was definitely created by a human',
-            '0: I am not at all certain in my judgment; 100: I am completely certain in my judgment',
+            'Highlights and lowlights of the described game',
+            'Explanations of particularly low and high multiple choice answers about the game',
+            'Suggestions for other settings in which the game might be played',
+            'Your best guess for who created the game',
         ],
-        'correctAnswer': task === "single" ? 0 : 2,  // zero-based
+        'correctAnswer': 1,  // zero-based
     },
     {
         'id': 'submittables',
-        'question': 'Which of the following will you be able to submit for each game?',
+        'question': 'What will you be asked to respond with in each trial?',
         'multiSelect': true,
         'answers': [
-            'Your rating, using a slider',
-            'A short explanation for your rating',
-            'Highlighted text from the game description that helped you make your judgment',
-            'A summary of the game description in your own words',
-            'A rating of how fun the game would be to play',
-            'A rating of how difficult the game would be to play',
-            'A list of objects that appear in the game',
+            'Answers of a few multiple choice questions with judgements of the game description',
+            'Your edits for how the described game might be improved',
+            'Short explanations for your question answers',
+            'A list of which objects are missing from the room to play the game'
         ],
-        'correctAnswer': [0, 1, 2],  // zero-based
+        'correctAnswer': [0, 2],  // zero-based
     },
+    // {
+    //     'id': 'submittables',
+    //     'question': 'Which of the following will you be able to submit for each game?',
+    //     'multiSelect': true,
+    //     'answers': [
+    //         'Asnwers to several multiple choice questions about the game',
+    //         'A short explanation for your rating',
+    //         'Highlighted text from the game description that helped you make your judgment',
+    //         'A summary of the game description in your own words',
+    //         'A rating of how fun the game would be to play',
+    //         'A rating of how difficult the game would be to play',
+    //         'A list of objects that appear in the game',
+    //     ],
+    //     'correctAnswer': [0, 1, 2],  // zero-based
+    // },
 ];
 
 

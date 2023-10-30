@@ -1,0 +1,236 @@
+<script setup>
+import { useRouter, useRoute, stringifyQuery } from 'vue-router'
+import useTimelineStepper from '@/composables/timelinestepper'
+import useSmileStore from '@/stores/smiledata' // get access to the global store
+import GameTextDisplay from '@/components/atoms/GameTextDisplay.vue';
+import LikertRadioInput from '@/components/atoms/LikertRadioInput.vue';
+
+import bulmaSlider from 'bulma-slider/dist/js/bulma-slider';
+import { ref, reactive, computed } from 'vue';
+
+// const router = useRouter()
+// const route = useRoute()
+// const smilestore = useSmileStore()
+
+
+const QUESTION_TYPE = 'select';
+const VALIDATION_TYPE = 'required:trim';
+
+const JUDGEMENT_QUESTIONS = [
+    {
+        'id': 'fun',
+        'label': "How fun do you think this game would be to play?",
+        'options': {1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'},
+    },
+    {
+        'id': 'capability',
+        'label': "Do you think playing this game help you become more capable in this video game environment?",
+        'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
+    },
+    {
+        'id': 'achievablity',
+        'label': "How achievable are the goals described by this game?",
+        'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
+    },
+    {
+        'id': 'difficulty',
+        'label': "How difficult do you think this game would be to play?",
+        'options': {1: 'Very easy', 4: 'Medium', 7: 'Very difficult'},
+    },
+    {
+        'id': 'creativity',
+        'label': "How creative is this game?",
+        'options': {1: 'Not creative at all', 4: 'Somewhat creative', 7: 'Very creative'},
+    },
+    {
+        'id': 'human-likeness',
+        'label': "How human-like do you think this game is?",
+        'options': {1: 'Not at all', 4: 'Somewhat human-like', 7: 'Very human-like'},
+    },
+    {
+        'id': 'confidence',
+        'label': "How confident are you in your human-likeness judgenment?",
+        'options': {1: 'Not at all confident', 4: 'Somewhat confident', 7: 'Very confident'},
+    }
+]
+
+const answers = reactive(Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) => [question.id, ''])))
+answers['reasoning-low'] = '';
+answers['reasoning-high'] = '';
+
+const complete = computed(() => Object.keys(answers).every((key) => answers[key] !== '' && answers[key] !== 0));
+
+defineExpose({
+    complete,
+    answers
+})
+
+const gameTextDisplayRef = ref(null);
+
+const props = defineProps({
+    game: String
+})
+
+function range(start, end) {
+    const length = end - start;
+    return Array.from({ length }, (_, i) => start + i);
+}
+
+function specifyOptions(spec) {
+    if (typeof spec === 'number') {
+        return range(0, spec + 1).map((i) => {
+            if (i === 0) {
+                return {label: '', value: '', attrs: {disabled: true}};
+            }
+            return {label: `(${i})`, value: i};
+        });
+    }
+
+    if (typeof spec === 'object') {
+        const keys = Object.keys(spec).map((key) => parseInt(key, 10));
+        const max = Math.max(...keys);
+        const min = Math.min(...keys);
+        return range(min - 1, max + 1).map((i) => {
+            if (i === min - 1) {
+                return {label: '', value: '', attrs: {disabled: true}};
+            }
+
+            const label = i in spec ? `(${i}) ${spec[i]}` : `(${i})`;
+            return {label, value: i};; 
+        });
+    }
+
+    console.log('invalid spec', spec);
+    return [];
+}
+
+</script>
+
+<template>
+    <div class="my-2">
+        <div class="one-game my-4">
+            <div class="columns">
+                <div class="column is-2"></div>
+                <div class="column is-8">
+                    <div class="has-text-left pb-4">
+                        Please read the following game description, and answer the questions below:
+                    </div>
+                    <GameTextDisplay :game="props.game" ref="gameTextDisplayRef"></GameTextDisplay>
+                </div>
+                <div class="column is-2"></div>
+            </div>
+        </div>    
+
+        <div class="">
+            <div class="game-questions columns">
+                <div class="column is-3"></div>
+                <div class="column is-6">
+                    <FormKit 
+                        type="form"
+                        id="single-game-extended-judgement-form"
+                        :actions="false"
+                    >
+                        <p class="field has-text-left">
+                            Please answer the following questions about the game above in the context of the video game environment described earlier:
+                        </p>
+
+                        <template v-for="question in JUDGEMENT_QUESTIONS" :key="question.id">
+                            <FormKit
+                                :name="question.id"
+                                :label="question.label"
+                                v-model="answers[question.id]"
+                                :type="'type' in question ? question.type : QUESTION_TYPE"
+                                :options="specifyOptions(question.options)"
+                                :validation="'validation' in question ? question.validation : VALIDATION_TYPE"
+                            />
+                        </template>
+
+                        <div class="columns">
+                            <div class="field column">
+                                <FormKit 
+                                    v-model="answers['reasoning-low']"
+                                    type="textarea"
+                                    label="Explain your low ratings"
+                                    help="For questions you answered lowly (1, 2, or 3), what about the game contributed to your judgement?"
+                                    placeholder="What contributed to your judgement?"
+                                    rows="5"
+                                    validation-visibility="live"
+                                    validation="length:30"
+                                />
+                            </div>
+
+                            <div class="field column">
+                                <FormKit 
+                                    v-model="answers['reasoning-high']"
+                                    type="textarea"
+                                    label="Explain your high ratings"
+                                    help="For questions you answered highly (5, 6, or 7), what about the game contributed to your judgement?"
+                                    placeholder="What contributed to your judgement?"
+                                    rows="5"
+                                    validation-visibility="live"
+                                    validation="length:30"
+                                />
+                            </div>
+                        </div>
+                    </FormKit>
+
+                    <!-- <form>
+                        
+
+                        <LikertRadioInput ref="funRef" name="rating-fun" :n="7" question="How fun do you think this game would be to play?" 
+                            :labels="{1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'}"
+                        />
+
+                        <LikertRadioInput ref="capableRef" name="rating-capable" :n="7" question="Do you think playing this game help you become more capable in this video game environment?" 
+                            :labels="{1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'}"
+                        />
+
+                        <LikertRadioInput ref="achievableRef" name="rating-achievable" :n="7" question="How achievable are the goals described by this game?" 
+                            :labels="{1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'}"
+                        />
+
+                        <LikertRadioInput ref="difficultRef" name="rating-difficult" :n="7" question="How difficult do you think this game would be to play?" 
+                            :labels="{1: 'Very easy', 4: 'Medium', 7: 'Very difficult'}"
+                        />
+
+                        <LikertRadioInput ref="creativeRef" name="rating-creative" :n="7" question="How creative is this game?" 
+                            :labels="{1: 'Not creative at all', 4: 'Somewhat creative', 7: 'Very creative'}"
+                        />
+
+                        <LikertRadioInput ref="humanLikeRef" name="rating-human-like" :n="7" question="How human-like do you think this game is?" 
+                            :labels="{1: 'Not at all', 4: 'Somewhat human-like', 7: 'Very human-like'}"
+                        />
+
+                        <div class="columns">
+                            <div class="field column">
+                                <label for="reasoning-low" class="label has-text-left">For questions you answered lowly (1, 2, or 3), what about the game contributed to your judgement?</label>
+                                <div class="control">
+                                    <textarea id="reasoning-low" class="textarea" placeholder="What contributed to your judgement?" v-model="lowJudgementReasoning"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="field column">
+                                <label for="reasoning-high" class="label has-text-left">For questions you answered highly (5, 6, or 7), what about the game contributed to your judgement?</label>
+                                <div class="control">
+                                    <textarea id="reasoning-high" class="textarea" placeholder="What contributed to your judgement?" v-model="highJudgementReasoning"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form> -->
+                </div>
+                <div class="column is-3"></div>
+            </div>
+
+        </div>
+    </div>
+</template>
+
+<style>
+    /* .formkit-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    } */
+
+</style>
