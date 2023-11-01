@@ -69,8 +69,8 @@ const instText = computed(() => {
         return PAIRED_GAME_INSTRUCTIONS;
     }
 
-    console.error(`Found unexpected task: ${task}.`);
-    return [];
+    console.error(`Found unexpected task: ${task}, defaulting to 'single'`);
+    return SINGLE_GAME_INSTRUCTIONS;
 })
 
 function finish(goto) { 

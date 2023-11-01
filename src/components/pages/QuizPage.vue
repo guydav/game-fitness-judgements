@@ -108,25 +108,22 @@ const page = ref(1)
 // quiz complete if they answered every question
 const quizComplete = computed(() => Object.keys(forminfo).every((key) => forminfo[key] !== ''));
 
-// only move to next page if answers are correct, else return to instructions
-function quizCorrect() {
-    // console.log('checking quiz');
-    return QUIZ_QUESTIONS.every((question) => {
-        // console.log(question.id, forminfo[question.id], question.answers[question.correctAnswer]);
-        
-        if (question.multiSelect) {
-            // const val = forminfo[question.id].length === question.correctAnswer.length && question.correctAnswer.every((answerIndex) => forminfo[question.id].includes(question.answers[answerIndex]));
-            // console.log(`checking ${question.id} with ${forminfo[question.id]} and ${question.correctAnswer} and ${val}`);
-            // return val;
-            return forminfo[question.id].length === question.correctAnswer.length && question.correctAnswer.every((answerIndex) => forminfo[question.id].includes(question.answers[answerIndex]));
-        }
 
-        // const val = forminfo[question.id] === question.answers[question.correctAnswer]
+// only move to next page if answers are correct, else return to instructions
+const quizCorrect = computed(() => QUIZ_QUESTIONS.every((question) => {
+    // console.log(`${question.id} | ${forminfo[question.id]} | ${Object.keys(forminfo[question.id])} | ${question.answers[question.correctAnswer]} | ${question.correctAnswer.length}`);
+    if (question.multiSelect) {
+        // const val = forminfo[question.id].length === question.correctAnswer.length && question.correctAnswer.every((answerIndex) => forminfo[question.id].includes(question.answers[answerIndex]));
         // console.log(`checking ${question.id} with ${forminfo[question.id]} and ${question.correctAnswer} and ${val}`);
         // return val;
-        return forminfo[question.id] === question.answers[question.correctAnswer];
-    });
-}
+        return forminfo[question.id].length === question.correctAnswer.length && question.correctAnswer.every((answerIndex) => forminfo[question.id].includes(question.answers[answerIndex]));
+    }
+
+    // const val = forminfo[question.id] === question.answers[question.correctAnswer]
+    // console.log(`checking ${question.id} with ${forminfo[question.id]} and ${question.correctAnswer} and ${val}`);
+    // return val;
+    return forminfo[question.id] === question.answers[question.correctAnswer];
+}));
 
 function autofill() {
     QUIZ_QUESTIONS.forEach((question) => {
@@ -150,7 +147,7 @@ function checkQuiz() {
     smilestore.saveQuizForm(forminfo); // todo: if too many attempts are incorrect, end experiment?
 
     // quiz good
-    if (quizCorrect()) {
+    if (quizCorrect.value) {
         finish(next());
 
     // You have failed too many times :( ) {
