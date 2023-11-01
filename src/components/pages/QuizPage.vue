@@ -152,11 +152,11 @@ function checkQuiz() {
 
     // You have failed too many times :( ) {
     } else if (forminfo.attempt > 5) {
-        finish('/thanks')
+        finish('thanks')
 
     // Do the instructions again!
     } else {
-        finish('/instructions')
+        finish('instructions')
     }
 }
 
