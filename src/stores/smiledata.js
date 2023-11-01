@@ -31,7 +31,7 @@ const useSmileStore = defineStore('smilestore', {
       seedID: '',
       seedSet: false,
       pageTracker: 0,
-      possibleConditions: { "task": ["single", "paired"] },
+      // possibleConditions: { "task": ["single", "paired"] },
       gamesData: null,
     }, localStorage, { mergeDefaults: true }),
     global: {

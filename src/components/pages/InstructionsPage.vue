@@ -60,18 +60,19 @@ const PAIRED_GAME_INSTRUCTIONS = [
 
 
 // computed property based on condition in data
-const instText = computed(() => {
-    const {task} = smilestore.getConditions;
-    if (task === 'single') {
-        return SINGLE_GAME_INSTRUCTIONS;
+const instText = SINGLE_GAME_INSTRUCTIONS;
+// const instText = computed(() => {
+//     const {task} = smilestore.getConditions;
+//     if (task === 'single') {
+//         return SINGLE_GAME_INSTRUCTIONS;
 
-    } if (task === 'paired') {
-        return PAIRED_GAME_INSTRUCTIONS;
-    }
+//     } if (task === 'paired') {
+//         return PAIRED_GAME_INSTRUCTIONS;
+//     }
 
-    console.error(`Found unexpected task: ${task}, defaulting to 'single'`);
-    return SINGLE_GAME_INSTRUCTIONS;
-})
+//     console.error(`Found unexpected task: ${task}, defaulting to 'single'`);
+//     return SINGLE_GAME_INSTRUCTIONS;
+// })
 
 function finish(goto) { 
     // smilestore.saveData()
