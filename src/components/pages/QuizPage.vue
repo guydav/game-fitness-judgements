@@ -34,7 +34,7 @@ const QUIZ_QUESTIONS = [
             '4',
             'It will vary between 1, 2, and 4',
         ],
-        'correctAnswer': task === "single" ? 0 : 1,  // zero-based
+        'correctAnswer': 0,  // zero-based  task === "single" ? 0 : 1
     },
     {
         'id': 'howDescriptions',
@@ -92,11 +92,9 @@ const QUIZ_QUESTIONS = [
 
 const QUIZ_QUESTIONS_SHUFFLED_ANSWERS = QUIZ_QUESTIONS.map((question) => {
     const answers = random.shuffle(question.answers);
-    const correctAnswer = answers.indexOf(question.answers[question.correctAnswer]);
     return {
         ...question,
         answers,
-        correctAnswer,
     }
 });
 
@@ -106,7 +104,7 @@ const forminfo = reactive(Object.fromEntries(QUIZ_QUESTIONS.map((question) => [q
 const page = ref(1)
 
 // quiz complete if they answered every question
-const quizComplete = computed(() => Object.keys(forminfo).every((key) => forminfo[key] !== ''));
+const quizComplete = computed(() => Object.keys(forminfo).every((key) => (forminfo[key] !== '') && (forminfo[key] !== undefined) && (!Array.isArray(forminfo[key]) || forminfo[key].length > 0)));
 
 
 // only move to next page if answers are correct, else return to instructions
@@ -152,11 +150,11 @@ function checkQuiz() {
 
     // You have failed too many times :( ) {
     } else if (forminfo.attempt > 5) {
-        finish('thanks')
+        finish({name: 'thanks'});
 
     // Do the instructions again!
     } else {
-        finish('instructions')
+        finish({name: 'instructions'});
     }
 }
 

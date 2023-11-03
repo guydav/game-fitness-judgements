@@ -116,6 +116,7 @@ timeline.pushSeqRoute({
   path: '/instructions',
   name: 'instructions',
   component: Instructions,
+  meta: { allowDirectEntry: true },
 })
 
 // quiz
@@ -180,6 +181,7 @@ timeline.pushSeqRoute({
   path: '/thanks',
   name: 'thanks',
   component: Thanks,
+  meta: { allowDirectEntry: true },
 })
 
 // this is a special page that is for a withdraw
