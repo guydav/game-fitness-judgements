@@ -3,10 +3,9 @@ import { useRouter, useRoute, stringifyQuery } from 'vue-router'
 import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
 import GameTextDisplay from '@/components/atoms/GameTextDisplay.vue';
-import LikertRadioInput from '@/components/atoms/LikertRadioInput.vue';
 
-import bulmaSlider from 'bulma-slider/dist/js/bulma-slider';
-import { ref, reactive, computed } from 'vue';
+import { ref, reactive, computed, watch } from 'vue';
+import { reset } from '@formkit/core';
 
 // const router = useRouter()
 // const route = useRoute()
@@ -75,6 +74,7 @@ const answers = reactive(Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) =
 answers['reasoning-low'] = '';
 answers['reasoning-high'] = '';
 
+
 const complete = computed(() => Object.keys(answers).every((key) => answers[key] !== '' && answers[key] !== 0));
 
 defineExpose({
@@ -88,6 +88,19 @@ const props = defineProps({
     game: String
 })
 
+// When the game changes, reset the answers
+watch(() => props.game, (prevGame, nextGame) => {
+    if (prevGame !== nextGame) {
+        // console.log('game changed, resetting answers');
+        // console.log(answers);
+        // console.log(answers.value);
+        // Object.keys(answers).forEach((key) => {
+        //     answers[key] = '';
+        // });
+        reset('single-game-extended-judgement-form');
+    }
+});
+
 function range(start, end) {
     const length = end - start;
     return Array.from({ length }, (_, i) => start + i);
@@ -99,7 +112,8 @@ function specifyOptions(spec) {
             if (i === 0) {
                 return {label: '', value: '', attrs: {disabled: true}};
             }
-            return {label: `(${i})`, value: i};
+            // return {label: `(${i})`, value: i};
+            return {label: i, value: i};
         });
     }
 
@@ -112,7 +126,8 @@ function specifyOptions(spec) {
                 return {label: '', value: '', attrs: {disabled: true}};
             }
 
-            const label = i in spec ? `(${i}) ${spec[i]}` : `(${i})`;
+            // const label = i in spec ? `(${i}) ${spec[i]}` : `(${i})`;
+            const label = i in spec ? `${i} - ${spec[i]}` : i;
             return {label, value: i};; 
         });
     }
