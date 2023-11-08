@@ -12,6 +12,21 @@ import { ref, reactive, computed } from 'vue';
 // const route = useRoute()
 // const smilestore = useSmileStore()
 
+function buildDefaultOptions(n, keyword) {
+    if (n === 5) {
+        return {
+            1: `Not at all ${keyword}`,
+            2: `Slightly ${keyword}`,
+            3: `Moderately ${keyword}`,
+            4: `Very ${keyword}`,
+            5: `Extremley ${keyword}`,
+        }
+    }
+
+    console.error('invalid n', n);
+    return {};
+}
+
 
 const QUESTION_TYPE = 'select';
 const VALIDATION_TYPE = 'required:trim';
@@ -20,37 +35,39 @@ const JUDGEMENT_QUESTIONS = [
     {
         'id': 'fun',
         'label': "How fun do you think this game would be to play?",
-        'options': {1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'},
+        'options': buildDefaultOptions(5, 'fun'),
+        // 'options': {1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'},
     },
     {
         'id': 'capability',
-        'label': "Do you think playing this game help you become more capable in this video game environment?",
-        'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
+        'label': "Do you think playing this game be helpful in becoming more capable in this video game environment?",
+        'options': buildDefaultOptions(5, 'helpful'),
+        // 'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
     },
     {
         'id': 'achievablity',
         'label': "How achievable are the goals described by this game?",
-        'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
+        'options': buildDefaultOptions(5, 'achievable'),
     },
     {
         'id': 'difficulty',
         'label': "How difficult do you think this game would be to play?",
-        'options': {1: 'Very easy', 4: 'Medium', 7: 'Very difficult'},
+        'options': buildDefaultOptions(5, 'difficult'),
     },
     {
         'id': 'creativity',
         'label': "How creative is this game?",
-        'options': {1: 'Not creative at all', 4: 'Somewhat creative', 7: 'Very creative'},
+        'options': buildDefaultOptions(5, 'creative'),
     },
     {
         'id': 'human-likeness',
         'label': "How human-like do you think this game is?",
-        'options': {1: 'Not at all', 4: 'Somewhat human-like', 7: 'Very human-like'},
+        'options': buildDefaultOptions(5, 'human-like')
     },
     {
         'id': 'confidence',
         'label': "How confident are you in your human-likeness judgenment?",
-        'options': {1: 'Not at all confident', 4: 'Somewhat confident', 7: 'Very confident'},
+        'options': buildDefaultOptions(5, 'confident')
     }
 ]
 
