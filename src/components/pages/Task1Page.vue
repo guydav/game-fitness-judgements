@@ -2,9 +2,11 @@
 import { useRouter, useRoute } from 'vue-router'
 import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
+import * as random from '@/randomization';
 
 import { reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import SingleGameExtendedJudgment from '@/components/molecules/SingleGameExtendedJudgment.vue';
+
 
 const router = useRouter()
 const route = useRoute()
@@ -21,9 +23,9 @@ const gamesData = smilestore.getGamesData;
 
 function sampleGames() {
     const { games } = gamesData;
-    // TODO: sample games, using a random seed, balanced by conditions
+    // TODO: subsample games, balanced by conditions
     // TODO: # of real/model created, MAP-Elites bins, etc.?
-    return games;
+    return random.shuffle(games);
     
 }
 
