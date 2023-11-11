@@ -32,14 +32,20 @@ const VALIDATION_TYPE = 'required:trim';
 
 const JUDGEMENT_QUESTIONS = [
     {
-        'id': 'fun',
-        'label': "How fun do you think this game would be to play?",
+        'id': 'fun_play',
+        'label': 'How fun would it be to play game yourself?',
+        'options': buildDefaultOptions(5, 'fun'),
+        // 'options': {1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'},
+    },
+    {
+        'id': 'fun_watch',
+        'label': 'How fun would it be to watch someone else play this game?',
         'options': buildDefaultOptions(5, 'fun'),
         // 'options': {1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'},
     },
     {
         'id': 'capability',
-        'label': "Do you think playing this game be helpful in becoming more capable in this video game environment?",
+        'label': "Imagine that you played this game for several minutes. How much better would it make you at interacting with the virtual environment?",
         'options': buildDefaultOptions(5, 'helpful'),
         // 'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
     },
@@ -50,12 +56,12 @@ const JUDGEMENT_QUESTIONS = [
     },
     {
         'id': 'difficulty',
-        'label': "How difficult do you think this game would be to play?",
+        'label': "Imagine playing this game. How difficult do you think it would be to play?",
         'options': buildDefaultOptions(5, 'difficult'),
     },
     {
         'id': 'creativity',
-        'label': "How creative is this game?",
+        'label': "How creatively designed is this game?",
         'options': buildDefaultOptions(5, 'creative'),
     },
     {
