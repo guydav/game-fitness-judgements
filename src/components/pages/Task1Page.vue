@@ -6,7 +6,8 @@ import * as random from '@/randomization';
 
 import { reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import SingleGameExtendedJudgment from '@/components/molecules/SingleGameExtendedJudgment.vue';
-
+import InstructionsContent from '@/components/atoms/InstructionsContent.vue';
+import GameTextDisplay from '@/components/atoms/GameTextDisplay.vue';
 
 const router = useRouter()
 const route = useRoute()
@@ -44,6 +45,7 @@ function finish(goto) {
 
     if (gameIndex.value < participantGames.length - 1) {
         gameIndex.value += 1;
+        judgementRef.value.resetForm();
     } else {
         smilestore.saveData();
         if (goto) router.push(goto);
@@ -58,6 +60,11 @@ watchEffect(() => {
     }
 });
 
+const modalVisible = ref(false);
+function flipModalVisibility() {
+    modalVisible.value = !modalVisible.value;
+}
+
 </script>
 
 <template>
@@ -65,9 +72,43 @@ watchEffect(() => {
         <!-- TODO: change title to something more helpful (e.g. game X/N?) -->
         <h1 class="title is-3">Task 1</h1>
         
-        <SingleGameExtendedJudgment :game="participantGames[gameIndex].text" ref="judgementRef"></SingleGameExtendedJudgment>
+        <div class="modal" :class="{'is-active': modalVisible}" id="modal-holder" @click="flipModalVisibility()">
+            <div class="modal-background"></div>
+            <div class="modal-content has-background-white-bis" >
+                <InstructionsContent />
+            </div>
+        </div>
 
-        <button class="button is-success is-light" id='finish' :disabled="isDisabled" @click="finish(next())">next &nbsp;<FAIcon icon="fa-solid fa-arrow-right" /></button>
+        <div class="my-2">
+            <div class="one-game my-4">
+                <div class="columns">
+                    <div class="column is-2"></div>
+                    <div class="column is-8">
+                        <div class="has-text-left pb-4">
+                            Please read the following game description, and answer the questions below:
+                        </div>
+                        <GameTextDisplay :game="participantGames[gameIndex].text" ref="gameTextDisplayRef"></GameTextDisplay>
+                    </div>
+                    <div class="column is-2"></div>
+                </div>
+            </div>    
+
+            <div class="">
+                <div class="game-questions columns">
+                    <div class="column is-3"></div>
+                    <div class="column is-6">
+                        <SingleGameExtendedJudgment ref="judgementRef"></SingleGameExtendedJudgment>            
+
+                        <div class="is-flex is-justify-content-space-between">
+                            <button class="button is-light is-info" id='instructions-modal-button' @click="flipModalVisibility()">Review Instructions and Room Images</button>
+                            <button class="button is-success is-light" id='finish' :disabled="isDisabled" @click="finish(next())">next &nbsp;<FAIcon icon="fa-solid fa-arrow-right" /></button>
+                        </div>
+                    </div>
+                    <div class="column is-3"></div>
+                </div>
+
+            </div>
+        </div>
     </div>
 </template>
 
