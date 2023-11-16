@@ -2,7 +2,6 @@
 import { useRouter, useRoute, stringifyQuery } from 'vue-router'
 import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
-import RoomPictures from '@/components/atoms/RoomPictures.vue'
 
 import { ref, reactive, computed, watch } from 'vue';
 import { reset } from '@formkit/core';
@@ -19,21 +18,6 @@ function buildDefaultOptions(n, keyword) {
             3: `Moderately ${keyword}`,
             4: `Very ${keyword}`,
             5: `Extremley ${keyword}`,
-        }
-    }
-
-    console.error('invalid n', n);
-    return {};
-}
-
-function buildAgreementOptions(n) {
-    if (n === 5) {
-        return {
-            1: 'Strongly disagree',
-            2: 'Disagree',
-            3: 'Neither agree nor disagree',
-            4: 'Agree',
-            5: 'Strongly agree',
         }
     }
 
@@ -64,20 +48,15 @@ const JUDGEMENT_QUESTIONS = [
         'options': buildDefaultOptions(5, 'helpful'),
         // 'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
     },
-    // {
-    //     'id': 'achievablity',
-    //     'label': "How achievable are the goals described by this game?",
-    //     'options': buildDefaultOptions(5, 'achievable'),
-    // },
-    // {
-    //     'id': 'difficulty',
-    //     'label': "Imagine playing this game. How difficult do you think it would be to play?",
-    //     'options': buildDefaultOptions(5, 'difficult'),
-    // },
     {
-        'id': 'goldilocks',
-        'label': 'How much do you agree with the following statement: "This game would be appropriately difficult for me, neither too hard nor too easy."',
-        'options': buildAgreementOptions(5),
+        'id': 'achievablity',
+        'label': "How achievable are the goals described by this game?",
+        'options': buildDefaultOptions(5, 'achievable'),
+    },
+    {
+        'id': 'difficulty',
+        'label': "Imagine playing this game. How difficult do you think it would be to play?",
+        'options': buildDefaultOptions(5, 'difficult'),
     },
     {
         'id': 'creativity',
@@ -89,27 +68,16 @@ const JUDGEMENT_QUESTIONS = [
         'label': "How human-like do you think this game is?",
         'options': buildDefaultOptions(5, 'human-like')
     },
-    // {
-    //     'id': 'confidence',
-    //     'label': "How confident are you in your human-likeness judgenment?",
-    //     'options': buildDefaultOptions(5, 'confident')
-    // }
     {
-        'id': 'overall',
-        'label': "What is your overall impression of this game?",
-        'type': 'textarea',
-        'help': 'In a couple of sentences, please describe your overall impression of this game.',
-        'placeholder': 'Please provide your overall impression',
-        'validation': 'length:30',
-        'validation-visibility': 'live',
-        'rows:': 5,
-    },
+        'id': 'confidence',
+        'label': "How confident are you in your human-likeness judgenment?",
+        'options': buildDefaultOptions(5, 'confident')
+    }
 ]
 
 const answers = reactive(Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) => [question.id, ''])))
-// answers['reasoning-low'] = '';
-// answers['reasoning-high'] = '';
-answers.overall = '';
+answers['reasoning-low'] = '';
+answers['reasoning-high'] = '';
 
 const complete = computed(() => Object.keys(answers).every((key) => answers[key] !== '' && answers[key] !== 0));
 
@@ -199,14 +167,10 @@ function specifyOptions(spec) {
                     :type="'type' in question ? question.type : QUESTION_TYPE"
                     :options="specifyOptions(question.options)"
                     :validation="'validation' in question ? question.validation : VALIDATION_TYPE"
-                    :help="'help' in question ? question.help : null"
-                    :placeholder="'placeholder' in question ? question.placeholder : null"
-                    :rows="'rows' in question ? question.rows : null"
-                    :validation-visibility="'validation-visibility' in question ? question['validation-visibility'] : null"
                 />
             </template>
 
-            <!-- <div class="columns">
+            <div class="columns">
                 <div class="field column">
                     <FormKit 
                         v-model="answers['reasoning-low']"
@@ -232,7 +196,7 @@ function specifyOptions(spec) {
                         validation="length:30"
                     />
                 </div>
-            </div> -->
+            </div>
         </FormKit>
 
     </div>

@@ -3,6 +3,7 @@ import { useRouter, useRoute } from 'vue-router'
 import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
 import * as random from '@/randomization';
+import RoomPictures from '@/components/atoms/RoomPictures.vue'
 
 import { reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import SingleGameExtendedJudgment from '@/components/molecules/SingleGameExtendedJudgment.vue';
@@ -70,12 +71,12 @@ function flipModalVisibility() {
 <template>
     <div class="page">
         <!-- TODO: change title to something more helpful (e.g. game X/N?) -->
-        <h1 class="title is-3">Task 1</h1>
+        <h1 class="title is-3">Game Responses</h1>
         
         <div class="modal" :class="{'is-active': modalVisible}" id="modal-holder" @click="flipModalVisibility()">
             <div class="modal-background"></div>
             <div class="modal-content has-background-white-bis" >
-                <InstructionsContent />
+                <InstructionsContent :showPictures="false"/>
             </div>
         </div>
 
@@ -84,10 +85,12 @@ function flipModalVisibility() {
                 <div class="columns">
                     <div class="column is-2"></div>
                     <div class="column is-8">
+                        <RoomPictures />
+
                         <div class="has-text-left pb-4">
-                            Please read the following game description, and answer the questions below:
+                            Please read the following game description, imagine playing it in the room pictured above, and answer the questions below:
                         </div>
-                        <GameTextDisplay :game="participantGames[gameIndex].text" ref="gameTextDisplayRef"></GameTextDisplay>
+                        <GameTextDisplay :game="participantGames[gameIndex].text" ref="gameTextDisplayRef" />
                     </div>
                     <div class="column is-2"></div>
                 </div>
@@ -97,10 +100,10 @@ function flipModalVisibility() {
                 <div class="game-questions columns">
                     <div class="column is-3"></div>
                     <div class="column is-6">
-                        <SingleGameExtendedJudgment ref="judgementRef"></SingleGameExtendedJudgment>            
+                        <SingleGameExtendedJudgment ref="judgementRef" />
 
                         <div class="is-flex is-justify-content-space-between">
-                            <button class="button is-light is-info" id='instructions-modal-button' @click="flipModalVisibility()">Review Instructions and Room Images</button>
+                            <button class="button is-light is-info" id='instructions-modal-button' @click="flipModalVisibility()">Review Instructions</button>
                             <button class="button is-success is-light" id='finish' :disabled="isDisabled" @click="finish(next())">next &nbsp;<FAIcon icon="fa-solid fa-arrow-right" /></button>
                         </div>
                     </div>
