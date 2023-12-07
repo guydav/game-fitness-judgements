@@ -1,32 +1,18 @@
 {
-    "games": [
-        {
-            "id": 0,
-            "originalGameId": 1,
-            "real": true,
-            "quantile": 0,
+    "realGames": {
+        "(1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 0)": {
             "text": "To play this game, pick up a dodgeball and throw it into a hexagonal bin. The game ends when you decide to stop, and your score is equal to the number of successful throws you made into the bin."
         },
-        {
-            "id": 1,
-            "originalGameId": 1,
-            "real": false,
-            "quantile": 1,
+        "(1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 1, 1)": {
             "text": "To set up the game, place a hexagonal bin in the center of the room. The objective of the game is to pick up and move different objects into the bin. Your score at the end of the game is determined by the number of different objects you successfully moved into the bin."
         },
-        {
-            "id": 2,
-            "originalGameId": 1,
-            "real": false,
-            "quantile": 1,
+        "(1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0)": {
             "text": "To play this game, stand on a rug and throw cube blocks onto a desk without hitting or breaking any lamps, desktops, or laptops. Your score at the end of the game is equal to the number of different cube blocks you successfully threw onto the desk."
         },
-        {
-            "id": 3,
-            "originalGameId": 1,
-            "real": false,
-            "quantile": 1,
+        "(1, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 1)": {
             "text": "To play this game, arrange objects of the same color so that one is either on top of, adjacent to, or inside the other. Make sure the main light switch or a lamp is turned off and avoid breaking any objects in the room. At the end of the game, your score is calculated as follows: you get 5 points for every different object used to satisfy the color arrangement condition, an additional 5 points for every different green object used in this way, and another 5 points for every different brown object used in this way. You also get 15 points for every different object used to satisfy the light switch or lamp condition. However, you lose 10 points for every different object that is broken."
         }
-    ]
+    },
+    "matchedArchiveGames": {},
+    "novelArchiveGames": {}
 }

@@ -50,24 +50,35 @@ const QUIZ_QUESTIONS = [
     },
     {
         'id': 'textResponses',
-        'question': 'What will you be asked to write in your short responses for each trial?',
+        'question': 'What will you be asked to write in your short response for each trial?',
         'multiSelect': false,
         'answers': [
             'Highlights and lowlights of the described game',
-            'Explanations of particularly low and high multiple choice answers about the game',
+            'A short overall impression of the described game',
             'Suggestions for other settings in which the game might be played',
             'Your best guess for who created the game',
         ],
         'correctAnswer': 1,  // zero-based
     },
     {
+        'id': 'assumeObjectsExist',
+        'question': 'Can you assume all objects referenced in a game description exist?',
+        'multiSelect': false,
+        'answers': [
+            'Yes, you can safely assume all objects mentioned exist in the room',
+            'No, you should check that the objects exist in the room pictures',
+            'No, but if it seems reasonable for the objects to exist, you can assume they do',
+        ],
+        'correctAnswer': 0,  // zero-based
+    },
+    {
         'id': 'submittables',
-        'question': 'What will you be asked to respond with in each trial?',
+        'question': 'What will you be asked to respond with to each game?',
         'multiSelect': true,
         'answers': [
             'Answers of a few multiple choice questions with judgements of the game description',
             'Your edits for how the described game might be improved',
-            'Short explanations for your question answers',
+            'A short overall response to the game description',
             'A list of which objects are missing from the room to play the game'
         ],
         'correctAnswer': [0, 2],  // zero-based

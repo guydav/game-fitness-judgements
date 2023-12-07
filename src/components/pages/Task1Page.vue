@@ -24,11 +24,51 @@ smilestore.loadGamesData();
 const gamesData = smilestore.getGamesData;
 
 function sampleGames() {
-    const { games } = gamesData;
-    // TODO: subsample games, balanced by conditions
-    // TODO: # of real/model created, MAP-Elites bins, etc.?
+    const games = [];
+    if ('realGames' in gamesData && smilestore.getNRealGames > 0) {
+        const realGameKeys = Object.keys(gamesData.realGames);
+        const selectedKeys = realGameKeys.length <= smilestore.getNRealGames ? realGameKeys : random.shuffle(realGameKeys).slice(0, smilestore.getNRealGames);
+        const realGames = selectedKeys.map((key) => ({
+            ...gamesData.realGames[key],
+            id: key,
+            real: true,
+            matched: true,
+        }));
+
+        games.push(...realGames);
+
+        if ('matchedArchiveGames' in gamesData) {
+            const matchedGames = [];
+            realGames.forEach((realGameEntry) => {
+                if (realGameEntry.id in gamesData.matchedArchiveGames) {
+                    matchedGames.push({
+                        ...gamesData.matchedArchiveGames[realGameEntry.id],
+                        id: realGameEntry.id,
+                        real: false,
+                        matched: true,
+                    });
+                } else {
+                    console.log(`No matched game found for ${realGameEntry.id}`);
+                }
+            });
+
+            games.push(...matchedGames);
+        }
+    }
+
+    if ('novelArchiveGames' in gamesData && smilestore.getNNovelGames > 0) {
+        const novelGameKeys = Object.keys(gamesData.novelArchiveGames);
+        const selectedNovelKeys = novelGameKeys.length <= smilestore.getNNovelGames ? novelGameKeys : random.shuffle(novelGameKeys).slice(0, smilestore.getNNovelGames);
+        const novelGames = selectedNovelKeys.map((key) => ({
+            ...gamesData.novelArchiveGames[key],
+            id: key,
+            real: false,
+            matched: false,
+        }));
+        games.push(...novelGames);
+    }
+
     return random.shuffle(games);
-    
 }
 
 const participantGames = sampleGames();

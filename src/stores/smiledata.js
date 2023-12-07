@@ -69,6 +69,8 @@ const useSmileStore = defineStore('smilestore', {
       paired_game_results: [],
       quiz_form: [], // array of quiz attempts
       quiz_attempts: 0,
+      n_real_games: 10,
+      n_novel_games: 20,
     },
     config: appconfig,
   }),
@@ -92,6 +94,8 @@ const useSmileStore = defineStore('smilestore', {
     getGamesData: (state) => state.local.gamesData,
     getQuizAttempts: (state) => state.data.quiz_attempts,
     getQuizForm: (state) => state.data.quiz_form,
+    getNRealGames: (state) => state.data.n_real_games,
+    getNNovelGames: (state) => state.data.n_novel_games,
   },
 
   actions: {
@@ -282,7 +286,8 @@ const useSmileStore = defineStore('smilestore', {
     loadGamesData() {
       if (this.local.gamesData === null) {
         this.local.gamesData = gamesDataJson;
-        console.log(`gamesData loaded from json with length ${this.local.gamesData.length}`);
+        const lengths = Object.keys(this.local.gamesData).map((key) => `${key} (${Object.keys(this.local.gamesData[key]).length})`).join(', '); // => `a (1), b (2), c (3
+        console.log(`gamesData loaded from json with keys (and lengths): ${lengths}`);
       }
 
       return this.local.gamesData;
