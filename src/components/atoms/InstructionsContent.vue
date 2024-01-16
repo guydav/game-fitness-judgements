@@ -3,13 +3,11 @@ import RoomPictures from '@/components/atoms/RoomPictures.vue'
 
 const SINGLE_GAME_INSTRUCTIONS = [
     "In this experiment, you will be shown descriptions of various games.",
-    "You will be asked to answer some multiple choice judgement questions and write a short overall impression about each game.",
-
-    "These games were created to be played in a video game environment in the images below, which depicts a bedroom with various balls, blocks, toys, and other objects.",
+    "These games were created to be played in a video game environment shown in the images below, which depicts a bedroom with various balls, blocks, toys, and other objects.",
     "Please assume that all objects mentioned in the games exist in the room.",
-
+    "You will be asked to answer some multiple choice judgement questions and write a short overall impression about each game.",
     "The game descriptions you will read were created by a computer translator program, and therefore might seem somewhat artificial.",
-    "Please try to judge the games based on the merits of the game described, not the quality of the description.",
+    '<span class="has-text-weight-semibold">Please try to judge the games based on the merits of the game described, not the quality of the description.</span>',
 
 
     // "You will be shown descriptions of various games, one game at a time.",
@@ -91,7 +89,7 @@ const props = defineProps({
         <div class="is-size-6">
             <ul>
                 <template v-for="(line, index) in instText" :key="index">
-                    <li>{{ line }}</li>
+                    <li v-html="line"></li>
                 </template>
             </ul>
         </div>

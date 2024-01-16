@@ -73,7 +73,7 @@ const QUIZ_QUESTIONS = [
     },
     {
         'id': 'submittables',
-        'question': 'What will you be asked to respond with to each game?',
+        'question': 'What will you be asked to respond with to each game? (Select all that apply)',
         'multiSelect': true,
         'answers': [
             'Answers of a few multiple choice questions with judgements of the game description',
