@@ -69,8 +69,8 @@ const useSmileStore = defineStore('smilestore', {
       paired_game_results: [],
       quiz_form: [], // array of quiz attempts
       quiz_attempts: 0,
-      n_real_games: 10,
-      n_novel_games: 20,
+      n_real_games: 6,
+      n_novel_games: 8,
     },
     config: appconfig,
   }),

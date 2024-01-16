@@ -197,7 +197,7 @@ function specifyOptions(spec) {
                     :label="question.label"
                     v-model="answers[question.id]"
                     :type="'type' in question ? question.type : QUESTION_TYPE"
-                    :options="specifyOptions(question.options)"
+                    :options="'options' in question ? specifyOptions(question.options) : null"
                     :validation="'validation' in question ? question.validation : VALIDATION_TYPE"
                     :help="'help' in question ? question.help : null"
                     :placeholder="'placeholder' in question ? question.placeholder : null"

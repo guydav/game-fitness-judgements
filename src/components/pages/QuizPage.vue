@@ -152,6 +152,7 @@ function checkQuiz() {
     // increment the attempts at the quiz
     smilestore.incrementQuizAttempts();
     forminfo.attempt = smilestore.getQuizAttempts; // e.g., first time submitting the quiz is attempt 1
+    forminfo.foo = undefined;
     // save the answers
     smilestore.saveQuizForm(forminfo); // todo: if too many attempts are incorrect, end experiment?
 

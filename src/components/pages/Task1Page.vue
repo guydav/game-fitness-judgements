@@ -27,9 +27,10 @@ function sampleGames() {
     const games = [];
     if ('realGames' in gamesData && smilestore.getNRealGames > 0) {
         const realGameKeys = Object.keys(gamesData.realGames);
+        console.log(`Found # real games: ${realGameKeys.length}`);
         const selectedKeys = realGameKeys.length <= smilestore.getNRealGames ? realGameKeys : random.shuffle(realGameKeys).slice(0, smilestore.getNRealGames);
         const realGames = selectedKeys.map((key) => ({
-            ...gamesData.realGames[key],
+            text: gamesData.realGames[key],
             id: key,
             real: true,
             matched: true,
@@ -42,7 +43,7 @@ function sampleGames() {
             realGames.forEach((realGameEntry) => {
                 if (realGameEntry.id in gamesData.matchedArchiveGames) {
                     matchedGames.push({
-                        ...gamesData.matchedArchiveGames[realGameEntry.id],
+                        text: gamesData.matchedArchiveGames[realGameEntry.id],
                         id: realGameEntry.id,
                         real: false,
                         matched: true,
@@ -58,9 +59,10 @@ function sampleGames() {
 
     if ('novelArchiveGames' in gamesData && smilestore.getNNovelGames > 0) {
         const novelGameKeys = Object.keys(gamesData.novelArchiveGames);
+        console.log(`Found # novel games: ${novelGameKeys.length}`);
         const selectedNovelKeys = novelGameKeys.length <= smilestore.getNNovelGames ? novelGameKeys : random.shuffle(novelGameKeys).slice(0, smilestore.getNNovelGames);
         const novelGames = selectedNovelKeys.map((key) => ({
-            ...gamesData.novelArchiveGames[key],
+            text: gamesData.novelArchiveGames[key],
             id: key,
             real: false,
             matched: false,

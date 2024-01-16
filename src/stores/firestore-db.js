@@ -17,6 +17,8 @@ import { split } from 'lodash'
 // since this is a module these will run once at the start
 const firebaseApp = initializeApp(appconfig.firebaseConfig)
 const db = getFirestore(firebaseApp)
+db._setSettings({ignoreUndefinedProperties: true})
+
 let mode = 'real'
 if (appconfig.mode === 'development') {
   mode = 'testing'

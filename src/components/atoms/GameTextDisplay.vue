@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 
 const highlightedText = ref('');
 let getHighlightedText = null;
@@ -26,7 +26,10 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="has-text-left has-text-weight-semibold has-background-white-ter" @mouseup="getHighlightedText">
-        {{ props.game }}
+    <div class="has-text-left has-background-white-ter" style="white-space: pre-line;" @mouseup="getHighlightedText">
+        <div v-for="line in props.game.replaceAll('\n\n', '\n').split('\n')">
+            <span class="has-text-weight-semibold">{{ line.split(" ", 1)[0] }}</span>
+            <span>{{ line.substring(line.split(" ", 1)[0].length) }}</span>
+        </div>
     </div>
 </template>
