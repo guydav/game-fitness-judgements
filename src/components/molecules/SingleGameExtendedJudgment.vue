@@ -57,6 +57,12 @@ const JUDGEMENT_QUESTIONS = [
         'rows:': 5,
     },
     {
+        'id': 'confident',
+        'label': 'How confident are you that you understand the game described above?',
+        'options': buildDefaultOptions(5, 'confident'),
+        // 'options': {1: 'Not fun at all', 4: 'Medium', 7: 'Very fun'},
+    },
+    {
         'id': 'fun_play',
         'label': 'How fun would it be to play game yourself?',
         'options': buildDefaultOptions(5, 'fun'),
