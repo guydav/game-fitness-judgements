@@ -47,6 +47,16 @@ const VALIDATION_TYPE = 'required:trim';
 
 const JUDGEMENT_QUESTIONS = [
     {
+        'id': 'explain',
+        'label': "Please explain the game described above in your own words:",
+        'type': 'textarea',
+        'help': 'In a couple of sentences, please explain the game desribed above in your own words.',
+        'placeholder': 'Please explain the game in your own words',
+        'validation': 'length:30',
+        'validation-visibility': 'live',
+        'rows:': 5,
+    },
+    {
         'id': 'fun_play',
         'label': 'How fun would it be to play game yourself?',
         'options': buildDefaultOptions(5, 'fun'),
@@ -61,7 +71,7 @@ const JUDGEMENT_QUESTIONS = [
     {
         'id': 'capability',
         'label': "Imagine that you played this game for several minutes. How much better would it make you at interacting with the virtual environment?",
-        'options': buildDefaultOptions(5, 'helpful'),
+        'options': buildDefaultOptions(5, 'better'),
         // 'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
     },
     // {

@@ -37,6 +37,19 @@ const QUIZ_QUESTIONS = [
         'correctAnswer': 0,  // zero-based  task === "single" ? 0 : 1
     },
     {
+        'id': 'textResponses',
+        'question': 'What will you be asked to write in your short responses for each game? (Select all that apply)',
+        'multiSelect': true,
+        'answers': [
+            'Highlights and lowlights of the described game',
+            'A short overall impression of the described game',
+            'Suggestions for other settings in which the game might be played',
+            'Your best guess for who created the game',
+            'An explanation of the game in your own words',
+        ],
+        'correctAnswer': [1, 4],  // zero-based
+    },
+    {
         'id': 'howDescriptions',
         'question': 'How were the textual descriptions for the games you will see created?',
         'multiSelect': false,
@@ -49,16 +62,19 @@ const QUIZ_QUESTIONS = [
         'correctAnswer': 1,  // zero-based
     },
     {
-        'id': 'textResponses',
-        'question': 'What will you be asked to write in your short response for each trial?',
-        'multiSelect': false,
+        'id': 'descriptionComponents',
+        'question': 'Which of the following components might be included in a game description? (Select all that apply)',
+        'multiSelect': true,
         'answers': [
-            'Highlights and lowlights of the described game',
-            'A short overall impression of the described game',
-            'Suggestions for other settings in which the game might be played',
-            'Your best guess for who created the game',
+            'Gameplay (a description of how the game is played)',
+            'Rationale (a description of why the game was created)',
+            'Setup (a description of how the game is set up)',
+            'Creator (a description of who created the game)',
+            'Terminal (a description of how or when the game ends)',
+            'Scoring (a description of how the game is scored)',
+            'Skills (a description of what skills the game helps you practice)',
         ],
-        'correctAnswer': 1,  // zero-based
+        'correctAnswer': [0, 2, 4, 5],  // zero-based
     },
     {
         'id': 'assumeObjectsExist',
@@ -79,10 +95,13 @@ const QUIZ_QUESTIONS = [
             'Answers of a few multiple choice questions with judgements of the game description',
             'Your edits for how the described game might be improved',
             'A short overall response to the game description',
-            'A list of which objects are missing from the room to play the game'
+            'A list of which objects are missing from the room to play the game',
+            'A short description of the game in your own words',
         ],
-        'correctAnswer': [0, 2],  // zero-based
+        'correctAnswer': [0, 2, 4],  // zero-based
     },
+    
+
     // {
     //     'id': 'submittables',
     //     'question': 'Which of the following will you be able to submit for each game?',

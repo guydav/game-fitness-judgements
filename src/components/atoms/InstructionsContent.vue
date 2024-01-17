@@ -5,10 +5,11 @@ const SINGLE_GAME_INSTRUCTIONS = [
     "In this experiment, you will be shown descriptions of various games.",
     "These games were created to be played in a video game environment shown in the images below, which depicts a bedroom with various balls, blocks, toys, and other objects.",
     "Please assume that all objects mentioned in the games exist in the room.",
-    "You will be asked to answer some multiple choice judgement questions and write a short overall impression about each game.",
+    "You will be asked to explain the game in your own words, answer some multiple choice judgement questions, and write a short overall impression about each game.",
     "The game descriptions you will read were created by a computer translator program, and therefore might seem somewhat artificial.",
+    "Each description includes sentences describing how to play the game ('gameplay') and how to keep score ('scoring').",
+    "Some descriptions also include instructions for how to prepare the room ('setup') or when the game ends ('terminal').",
     '<span class="has-text-weight-semibold">Please try to judge the games based on the merits of the game described, not the quality of the description.</span>',
-
 
     // "You will be shown descriptions of various games, one game at a time.",
     // "These games were created to be played in a video game environment in the images below.",
