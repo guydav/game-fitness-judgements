@@ -18,7 +18,7 @@ function buildDefaultOptions(n, keyword) {
             2: `Slightly ${keyword}`,
             3: `Moderately ${keyword}`,
             4: `Very ${keyword}`,
-            5: `Extremley ${keyword}`,
+            5: `Extremely ${keyword}`,
         }
     }
 
@@ -34,6 +34,22 @@ function buildAgreementOptions(n) {
             3: 'Neither agree nor disagree',
             4: 'Agree',
             5: 'Strongly agree',
+        }
+    }
+
+    console.error('invalid n', n);
+    return {};
+}
+
+
+function buildDifficultyOptions(n) {
+    if (n === 5) {
+        return {
+            1: 'Far too easy',
+            2: 'Too easy',
+            3: 'Appropriately difficult',
+            4: 'Too hard',
+            5: 'Far too hard',
         }
     }
 
@@ -76,8 +92,8 @@ const JUDGEMENT_QUESTIONS = [
     },
     {
         'id': 'capability',
-        'label': "Imagine that you played this game for several minutes. How much better would it make you at interacting with the virtual environment?",
-        'options': buildDefaultOptions(5, 'better'),
+        'label': "Imagine that you played this game for several minutes. How helpful would it be for learning to interact with the virtual environment?",
+        'options': buildDefaultOptions(5, 'helpful'),
         // 'options': {1: 'Not at all', 4: 'Somewhat', 7: 'Very much so'},
     },
     // {
@@ -92,8 +108,10 @@ const JUDGEMENT_QUESTIONS = [
     // },
     {
         'id': 'goldilocks',
-        'label': 'How much do you agree with the following statement: "This game would be appropriately difficult for me, neither too hard nor too easy."',
-        'options': buildAgreementOptions(5),
+        // 'label': 'How much do you agree with the following statement: "This game would be appropriately difficult for me, neither too hard nor too easy."',
+        'label': 'Imagine that you played this game for several minutes. Do you think it would be too easy, appropriately difficult, or too hard for you?',
+        // 'options': buildAgreementOptions(5),
+        'options': buildDifficultyOptions(5),
     },
     {
         'id': 'creativity',

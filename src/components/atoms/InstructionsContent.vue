@@ -2,7 +2,7 @@
 import RoomPictures from '@/components/atoms/RoomPictures.vue'
 
 const SINGLE_GAME_INSTRUCTIONS = [
-    "In this experiment, you will be shown descriptions of various games.",
+    "In this experiment, you will be shown descriptions of various games, one game at a time.",
     "These games were created to be played in a video game environment shown in the images below, which depicts a bedroom with various balls, blocks, toys, and other objects.",
     "Please assume that all objects mentioned in the games exist in the room.",
     "You will be asked to explain the game in your own words, answer some multiple choice judgement questions, and write a short overall impression about each game.",
