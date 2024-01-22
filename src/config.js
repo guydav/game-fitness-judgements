@@ -51,4 +51,5 @@ export default {
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGINGSENDERID,
     appId: import.meta.env.VITE_FIREBASE_APPID,
   },
+  recaptcha_site_key: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
 }

@@ -4,6 +4,7 @@ import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
 import * as random from '@/randomization';
 import RoomPictures from '@/components/atoms/RoomPictures.vue'
+import { useChallengeV3 } from 'vue-recaptcha/head'
 
 import { reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import SingleGameExtendedJudgment from '@/components/molecules/SingleGameExtendedJudgment.vue';
@@ -17,6 +18,8 @@ const smilestore = useSmileStore()
 const { next, prev } = useTimelineStepper()
 const judgementRef = ref(null)
 const isDisabled = ref(true);
+
+const { execute } = useChallengeV3('submit')
 
 if (route.meta.progress) smilestore.global.progress = route.meta.progress
 
@@ -77,12 +80,14 @@ const participantGames = sampleGames();
 const gameIndex = ref(0);
 
 
-function finish(goto) { 
+async function finish(goto) { 
     console.log(`finish called with game index ${gameIndex.value}`);
+    const captchaResponse = await execute();
     // smilestore.saveData()
     smilestore.recordSingleGameResults({
         id: participantGames[gameIndex.value].id,
         // TODO: Any other information we need to add here?
+        captchaResponse,
         ...judgementRef.value.answers,
     });
 
