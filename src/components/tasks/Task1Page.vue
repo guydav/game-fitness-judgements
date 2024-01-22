@@ -16,7 +16,8 @@ const route = useRoute()
 const smilestore = useSmileStore()
 
 const { next, prev } = useTimelineStepper()
-const judgementRef = ref(null)
+const gameTextSectionRef = ref(null);
+const judgementRef = ref(null);
 const isDisabled = ref(true);
 
 const { execute } = useChallengeV3('submit')
@@ -94,6 +95,7 @@ async function finish(goto) {
     if (gameIndex.value < participantGames.length - 1) {
         gameIndex.value += 1;
         judgementRef.value.resetForm();
+        gameTextSectionRef.value?.scrollIntoView({ behavior: 'smooth' }) 
     } else {
         smilestore.saveData();
         if (goto) router.push(goto);
@@ -137,7 +139,9 @@ function flipModalVisibility() {
                         <div class="has-text-left pb-4">
                             Please read the following game description, imagine playing it in the room pictured above, and answer the questions below:
                         </div>
-                        <GameTextDisplay :game="participantGames[gameIndex].text" ref="gameTextDisplayRef" />
+                        <section ref="gameTextSectionRef">
+                          <GameTextDisplay :game="participantGames[gameIndex].text"/>
+                        </section>
                     </div>
                     <div class="column is-2"></div>
                 </div>
