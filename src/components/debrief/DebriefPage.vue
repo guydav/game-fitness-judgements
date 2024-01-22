@@ -59,6 +59,7 @@ const DEBRIEF_QUESTIONS = [
     'label': 'Do you have any comments or questions for us?',
     'help': 'Do you have any comments or questions for us?',
     'placeholder': '...',
+    'validation': '',
     'rows:': 3,
   },
 ];
@@ -67,7 +68,7 @@ const ID_TO_QUESTION = Object.fromEntries(DEBRIEF_QUESTIONS.map((question) => [q
 console.log(ID_TO_QUESTION)
 const answers = reactive(Object.fromEntries(DEBRIEF_QUESTIONS.map((question) => [question.id, ''])))
 
-const complete = computed(() => Object.keys(answers).every((key) => (answers[key] !== '' && answers[key] !== 0) || ('invisible' in ID_TO_QUESTION[key]) ));
+const complete = computed(() => Object.keys(answers).every((key) => (answers[key] !== '' && answers[key] !== 0) || ('invisible' in ID_TO_QUESTION[key]) || ('validation' in ID_TO_QUESTION[key] && !ID_TO_QUESTION[key].validation) ));
 
 function finish(goto) {
   smilestore.recordDebriefResponses(answers);
@@ -81,10 +82,10 @@ function finish(goto) {
 
 <template>
   <div class="page">
-    <h1 class="title is-3">Thank you for your participation</h1>
+    <h1 class="title is-size-3">Thank you for your participation</h1>
     <DebriefText />
 
-    <h2 class="title is-3">A few final questions</h2>
+    <h2 class="title is-size-3">A few final questions</h2>
     <div class="debrief">
         <FormKit 
             type="form"

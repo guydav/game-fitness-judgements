@@ -81,13 +81,16 @@ const participantGames = sampleGames();
 const gameIndex = ref(0);
 
 
-async function finish(goto) { 
+async function finish(goto) {
     console.log(`finish called with game index ${gameIndex.value}`);
     const captchaResponse = await execute();
+
+    const gameDesc = { ...participantGames[gameIndex.value] };
+    if ('text' in gameDesc) delete gameDesc.text;  
+
     // smilestore.saveData()
     smilestore.recordSingleGameResults({
-        id: participantGames[gameIndex.value].id,
-        // TODO: Any other information we need to add here?
+        ...gameDesc,
         captchaResponse,
         ...judgementRef.value.answers,
     });
