@@ -14,7 +14,7 @@
                     <ul>
                         <li>
                             Participation in this study will take about 30 minutes to complete, and you will receive $5.00 for your participation. 
-                            As an additional incentive to try your best at the task, you may earn a cash bonus of up to $5.00 based on your performance.
+                            As an additional incentive to try your best at the task, you may earn a cash bonus of up to $2.50 based on your performance.
                         </li>
                         <li>
                             When you complete the study, a thorough verbal and written explanation of it will be provided.

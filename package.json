@@ -44,6 +44,7 @@
     "uuid": "^9.0.0",
     "vue": "^3.2.25",
     "vue-gtag": "^2.0.1",
+    "vue-recaptcha": "^3.0.0-alpha.2",
     "vue-router": "^4.0.16"
   },
   "devDependencies": {

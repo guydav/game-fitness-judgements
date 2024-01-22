@@ -118,7 +118,7 @@ function flipModalVisibility() {
         <div class="modal" :class="{'is-active': modalVisible}" id="modal-holder" @click="flipModalVisibility()">
             <div class="modal-background"></div>
             <div class="modal-content has-background-white-bis" >
-                <InstructionsContent :showPictures="false"/>
+                <InstructionsContent :showPictures="false" :includeLastLine="false"/>
             </div>
         </div>
 

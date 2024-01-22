@@ -63,14 +63,24 @@ const VALIDATION_TYPE = 'required:trim';
 
 const JUDGEMENT_QUESTIONS = [
     {
+        'id': 'creator',
+        'label': "Describe the creator of this game",
+        'type': 'textarea',
+        'help': 'In a couple of sentences, please describe the creator of this game.',
+        'placeholder': 'Please describe the creator of this game',
+        'rows:': 5,
+        'invisible': true,
+    },
+    {
         'id': 'explain',
         'label': "Please explain the game described above in your own words:",
         'type': 'textarea',
         'help': 'In a couple of sentences, please explain the game desribed above in your own words.',
-        'placeholder': 'Please explain the game in your own words',
+        'placeholder': 'Please explain the game in your own words. You cannot paste into this field.',
         'validation': 'length:30',
         'validation-visibility': 'live',
         'rows:': 5,
+        'prevent-paste': true,
     },
     {
         'id': 'confident',
@@ -129,6 +139,15 @@ const JUDGEMENT_QUESTIONS = [
     //     'options': buildDefaultOptions(5, 'confident')
     // }
     {
+        'id': 'weather',
+        'label': "Describe the weather in the room?",
+        'type': 'textarea',
+        'help': 'In a couple of sentences, please describe the weather while playing the game.',
+        'placeholder': 'Please describe the weather',
+        'rows:': 5,
+        'invisible': true,
+    },
+    {
         'id': 'overall',
         'label': "What is your overall impression of this game?",
         'type': 'textarea',
@@ -138,14 +157,16 @@ const JUDGEMENT_QUESTIONS = [
         'validation-visibility': 'live',
         'rows:': 5,
     },
-]
+];
+const ID_TO_QUESTION = Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) => [question.id, question]));
+
 
 const answers = reactive(Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) => [question.id, ''])))
 // answers['reasoning-low'] = '';
 // answers['reasoning-high'] = '';
 answers.overall = '';
 
-const complete = computed(() => Object.keys(answers).every((key) => answers[key] !== '' && answers[key] !== 0));
+const complete = computed(() => Object.keys(answers).every((key) => (answers[key] !== '' && answers[key] !== 0) || ('invisible' in ID_TO_QUESTION[key]) ));
 
 function resetForm() {
     reset('single-game-extended-judgement-form');
@@ -237,38 +258,11 @@ function specifyOptions(spec) {
                     :placeholder="'placeholder' in question ? question.placeholder : null"
                     :rows="'rows' in question ? question.rows : null"
                     :validation-visibility="'validation-visibility' in question ? question['validation-visibility'] : null"
+                    :onpaste="'prevent-paste' in question ? 'return false;' : undefined" 
+                    :outer-class="'invisible' in question ? 'is-hidden' : ''"
                 />
             </template>
-
-            <!-- <div class="columns">
-                <div class="field column">
-                    <FormKit 
-                        v-model="answers['reasoning-low']"
-                        type="textarea"
-                        label="Explain your low ratings"
-                        help="For questions you answered lowly (1, 2, or 3), what about the game contributed to your judgement?"
-                        placeholder="What contributed to your judgement?"
-                        rows="5"
-                        validation-visibility="live"
-                        validation="length:30"
-                    />
-                </div>
-
-                <div class="field column">
-                    <FormKit 
-                        v-model="answers['reasoning-high']"
-                        type="textarea"
-                        label="Explain your high ratings"
-                        help="For questions you answered highly (5, 6, or 7), what about the game contributed to your judgement?"
-                        placeholder="What contributed to your judgement?"
-                        rows="5"
-                        validation-visibility="live"
-                        validation="length:30"
-                    />
-                </div>
-            </div> -->
         </FormKit>
-
     </div>
 </template>
 

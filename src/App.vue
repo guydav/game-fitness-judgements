@@ -7,6 +7,8 @@ import StatusBar from '@/components/organisms/StatusBar.vue';
 import { onMounted, watch, ref } from 'vue';
 import PresenationNavBar from '@/components/organisms/PresentationNavBar.vue';
 import ProgressBar from './components/molecules/ProgressBar.vue';
+import { useRecaptchaProvider } from 'vue-recaptcha/head'
+
 
 // imports the global config object
 const router = useRouter()
@@ -30,6 +32,8 @@ onMounted(() => {
 
   smilestore.getBrowserFingerprint();
 })
+
+useRecaptchaProvider()
 
 </script>
 

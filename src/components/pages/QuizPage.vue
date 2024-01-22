@@ -4,6 +4,7 @@ import { useRouter, useRoute } from 'vue-router'
 import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
 import * as random from '@/randomization'
+import { useChallengeV3 } from 'vue-recaptcha/head'
 
 
 const router = useRouter()
@@ -12,6 +13,7 @@ const smilestore = useSmileStore()
 
 const { next, prev } = useTimelineStepper()
 
+const { execute } = useChallengeV3('submit')
 
 // smilestore.global.page_bg_color = '#fff'
 // smilestore.global.page_text_color = '#000'
@@ -36,19 +38,19 @@ const QUIZ_QUESTIONS = [
         ],
         'correctAnswer': 0,  // zero-based  task === "single" ? 0 : 1
     },
-    {
-        'id': 'textResponses',
-        'question': 'What will you be asked to write in your short responses for each game? (Select all that apply)',
-        'multiSelect': true,
-        'answers': [
-            'Highlights and lowlights of the described game',
-            'A short overall impression of the described game',
-            'Suggestions for other settings in which the game might be played',
-            'Your best guess for who created the game',
-            'An explanation of the game in your own words',
-        ],
-        'correctAnswer': [1, 4],  // zero-based
-    },
+    // {
+    //     'id': 'textResponses',
+    //     'question': 'What will you be asked to write in your short responses for each game? (Select all that apply)',
+    //     'multiSelect': true,
+    //     'answers': [
+    //         'Highlights and lowlights of the described game',
+    //         'A short overall impression of the described game',
+    //         'Suggestions for other settings in which the game might be played',
+    //         'Your best guess for who created the game',
+    //         'An explanation of the game in your own words',
+    //     ],
+    //     'correctAnswer': [1, 4],  // zero-based
+    // },
     {
         'id': 'howDescriptions',
         'question': 'How were the textual descriptions for the games you will see created?',
@@ -167,13 +169,18 @@ function finish(goto) {
     if(goto) router.push(goto)
 }
 
-function checkQuiz() { 
+async function checkQuiz() { 
+    const captchaResponse = await execute();
+
     // increment the attempts at the quiz
     smilestore.incrementQuizAttempts();
     forminfo.attempt = smilestore.getQuizAttempts; // e.g., first time submitting the quiz is attempt 1
-    forminfo.foo = undefined;
+    forminfo.captchaResponse = captchaResponse;
+    console.log(`Catpcha response: ${captchaResponse}`);
     // save the answers
     smilestore.saveQuizForm(forminfo); // todo: if too many attempts are incorrect, end experiment?
+
+    // TODO: consider doing something conditioned on the captcha response
 
     // quiz good
     if (quizCorrect.value) {

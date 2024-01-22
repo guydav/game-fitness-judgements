@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { plugin, defaultConfig } from '@formkit/vue'
 import '@formkit/themes/genesis'
 import VueGtag from 'vue-gtag' // google analytics
+import { VueRecaptchaPlugin } from 'vue-recaptcha/head';
+
 // import with an @ symbol are resolved by vite to ./src directory
 
 
@@ -29,6 +31,10 @@ app.use(
   },
   router
 )
+
+app.use(VueRecaptchaPlugin, {
+  v3SiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
+})
 
 // load any global components (these will be available in all other components)
 app.component('FAIcon', FontAwesomeIcon)

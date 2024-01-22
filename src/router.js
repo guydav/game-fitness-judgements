@@ -18,10 +18,10 @@ import Consent from '@/components/pages/ConsentPage.vue'
 import DemographicSurvey from '@/components/pages/DemographicSurveyPage.vue'
 import Captcha from '@/components/pages/CaptchaPage.vue'
 import Instructions from '@/components/pages/InstructionsPage.vue'
+import ExampleTask from '@/components/pages/ExampleTaskPage.vue'
 import Quiz from '@/components/pages/QuizPage.vue'
 import Exp from '@/components/pages/ExpPage.vue'
 import Task1 from '@/components/pages/Task1Page.vue'
-import Task2 from '@/components/pages/Task2Page.vue'
 import Debrief from '@/components/pages/DebriefPage.vue'
 import Thanks from '@/components/pages/ThanksPage.vue'
 import Config from '@/components/pages/ConfigPage.vue'
@@ -119,6 +119,12 @@ timeline.pushSeqRoute({
   meta: { allowDirectEntry: true },
 })
 
+timeline.pushSeqRoute({
+  path: '/example',
+  name: 'example',
+  component: ExampleTask,
+})
+
 // quiz
 timeline.pushSeqRoute({
   path: '/quiz',
@@ -140,11 +146,11 @@ timeline.pushSeqRoute({
   component: Task1,
 })
 
-timeline.pushSeqRoute({
-  path: '/task2',
-  name: 'task2',
-  component: Task2,
-})
+// timeline.pushSeqRoute({
+//   path: '/task2',
+//   name: 'task2',
+//   component: Task2,
+// })
 
 // create subtimeline for randomization
 // const randTimeline = new RandomSubTimeline()

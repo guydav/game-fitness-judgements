@@ -2,14 +2,13 @@
 import RoomPictures from '@/components/atoms/RoomPictures.vue'
 
 const SINGLE_GAME_INSTRUCTIONS = [
-    "In this experiment, you will be shown descriptions of various games, one game at a time.",
-    "These games were created to be played in a video game environment shown in the images below, which depicts a bedroom with various balls, blocks, toys, and other objects.",
-    "Please assume that all objects mentioned in the games exist in the room.",
+    "You will be shown descriptions of various games, one game at a time.",
+    "These games were created to be played in the video game environment shown in the images below.",
+    "This environment depicts a bedroom with various balls, blocks, toys, and other objects.",
     "You will be asked to explain the game in your own words, answer some multiple choice judgement questions, and write a short overall impression about each game.",
     "The game descriptions you will read were created by a computer translator program, and therefore might seem somewhat artificial.",
-    "Each description includes sentences describing how to play the game ('gameplay') and how to keep score ('scoring').",
-    "Some descriptions also include instructions for how to prepare the room ('setup') or when the game ends ('terminal').",
     '<span class="has-text-weight-semibold">Please try to judge the games based on the merits of the game described, not the quality of the description.</span>',
+    'Click "next" to proceed to an example of the experiment, after which you will be asked to answer a quiz with some questions about the experiment.',
 
     // "You will be shown descriptions of various games, one game at a time.",
     // "These games were created to be played in a video game environment in the images below.",
@@ -75,7 +74,11 @@ const props = defineProps({
     showPictures: {
         type: Boolean,
         default: true,
-    }
+    },
+    includeLastLine: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 </script>
@@ -84,13 +87,13 @@ const props = defineProps({
     <div class="column has-text-left instructions">
         <h1 class="title is-3">Instructions</h1>
         <div class="is-size-5">
-            Please read the following instructions for this experiment:
+            Please carefully read the following instructions for this experiment:
         </div>
         <hr>
         <div class="is-size-6">
             <ul>
                 <template v-for="(line, index) in instText" :key="index">
-                    <li v-html="line"></li>
+                    <li v-if="index < instText.length - 1 || props.includeLastLine" v-html="line" ></li>
                 </template>
             </ul>
         </div>
