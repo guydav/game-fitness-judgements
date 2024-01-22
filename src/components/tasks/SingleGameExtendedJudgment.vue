@@ -160,10 +160,10 @@ const JUDGEMENT_QUESTIONS = [
 ];
 const ID_TO_QUESTION = Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) => [question.id, question]));
 
-
 const answers = reactive(Object.fromEntries(JUDGEMENT_QUESTIONS.map((question) => [question.id, ''])))
 // answers['reasoning-low'] = '';
 // answers['reasoning-high'] = '';
+answers.explain = '';
 answers.overall = '';
 
 const complete = computed(() => Object.keys(answers).every((key) => (answers[key] !== '' && answers[key] !== 0) || ('invisible' in ID_TO_QUESTION[key]) ));

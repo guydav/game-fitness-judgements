@@ -21,7 +21,7 @@ function initLastRoute(mode) {
   if (mode === 'presentation') {
     return 'presentation_home'
   }
-  
+
   return 'landing'
 }
 
@@ -91,6 +91,7 @@ const useSmileStore = defineStore('smilestore', {
       quiz_attempts: 0,
       n_real_games: 3,
       n_novel_games: 4,
+      debrief_responses: {},
     },
     config: appconfig,
   }),
@@ -295,6 +296,9 @@ const useSmileStore = defineStore('smilestore', {
     },
     recordPairedGameResults(results) {
       this.data.paired_game_results.push(results);
+    },
+    recordDebriefResponses(responses) {
+      this.data.debrief_responses = responses;
     },
     loadGamesData() {
       if (this.local.gamesData === null) {
