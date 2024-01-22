@@ -79,6 +79,7 @@ describe('Generic router tests', () => {
   // the getLocalStorage() returns null if there is not
   // local storage set yet.
   it('there should be no smilestore before the app created', () => {
+    resetLocalStorage()
     expect(getLocalStorage()).toBe(null)
   })
 
@@ -169,7 +170,7 @@ describe('Generic router tests', () => {
     await router.isReady()
     expect(wrapper.html()).toContain('Please help us')
     expect(smilestore.local.lastRoute).toBe('welcome_anonymous')
-    await wrapper.find('#finish').trigger('click')
+    await wrapper.find('#begintask').trigger('click')
     await new Promise((r) => setTimeout(r, 10)) // wait a bit for the page to update and render after the click
     expect(wrapper.html()).toContain('Please take the time to read')
     expect(smilestore.local.lastRoute).toBe('consent') // check that smilestore was updated

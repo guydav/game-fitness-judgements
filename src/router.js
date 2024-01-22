@@ -1,32 +1,33 @@
 // import { ref } from 'vue'
-import '@/seed' 
-import useSmileStore from '@/stores/smiledata' // get access to the global store
+import '@/seed'
 import seedrandom from 'seedrandom'
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { v4 as uuidv4 } from 'uuid'
+import useSmileStore from '@/stores/smiledata' // get access to the global store
 import appconfig from '@/config'
-import { processQuery } from '@/utils'
+import { processQuery, getQueryParams } from '@/utils'
 import Timeline from '@/timeline'
 import RandomSubTimeline from '@/subtimeline'
-import { v4 as uuidv4 } from 'uuid';
-
 
 // 1. Import route components
-import RecruitmentChooser from '@/components/pages/RecruitmentChooserPage.vue'
-import MTurk from '@/components/pages/MTurkRecruitPage.vue'
-import Advertisement from '@/components/pages/AdvertisementPage.vue'
-import Consent from '@/components/pages/ConsentPage.vue'
-import DemographicSurvey from '@/components/pages/DemographicSurveyPage.vue'
-import Captcha from '@/components/pages/CaptchaPage.vue'
-import Instructions from '@/components/pages/InstructionsPage.vue'
-import ExampleTask from '@/components/pages/ExampleTaskPage.vue'
-import Quiz from '@/components/pages/QuizPage.vue'
-import Exp from '@/components/pages/ExpPage.vue'
-import Task1 from '@/components/pages/Task1Page.vue'
-import Debrief from '@/components/pages/DebriefPage.vue'
-import Thanks from '@/components/pages/ThanksPage.vue'
-import Config from '@/components/pages/ConfigPage.vue'
-import Withdraw from '@/components/pages/WithdrawPage.vue'
-import WindowSizer from '@/components/pages/WindowSizerPage.vue'
+import RecruitmentChooser from '@/components/recruitment/RecruitmentChooserPage.vue'
+import PresentationModeHomePage from '@/components/presentation_mode/PresentationModeHomePage.vue'
+import MTurk from '@/components/recruitment/MTurkRecruitPage.vue'
+import Advertisement from '@/components/recruitment/AdvertisementPage.vue'
+import Consent from '@/components/consent/ConsentPage.vue'
+import DemographicSurvey from '@/components/surveys/DemographicSurveyPage.vue'
+import Captcha from '@/components/captcha/CaptchaPage.vue'
+import Instructions from '@/components/instructions/InstructionsPage.vue'
+import ExampleTask from '@/components/instructions/ExampleTaskPage.vue'
+import Quiz from '@/components/instructions/QuizPage.vue'
+import Exp from '@/components/tasks/ExpPage.vue'
+import Task1 from '@/components/tasks/Task1Page.vue'
+import Task2 from '@/components/tasks/Task2Page.vue'
+import Debrief from '@/components/debrief/DebriefPage.vue'
+import Thanks from '@/components/thanks/ThanksPage.vue'
+import Config from '@/components/config/ConfigPage.vue'
+import Withdraw from '@/components/errors_withdraw/WithdrawPage.vue'
+import WindowSizer from '@/components/screen_adjust/WindowSizerPage.vue'
 // add new routes here.  generally these will be things in components/pages/[something].vue
 
 // 2. Define some routes to the timeline
@@ -37,7 +38,6 @@ import WindowSizer from '@/components/pages/WindowSizerPage.vue'
 // to the end of this list
 const timeline = new Timeline()
 
-
 // add the recruitment chooser if in development mode
 if (appconfig.mode === 'development') {
   timeline.pushRoute({
@@ -46,12 +46,21 @@ if (appconfig.mode === 'development') {
     component: RecruitmentChooser,
     meta: { allowDirectEntry: true },
   })
+} else if (appconfig.mode === 'presentation') {
+  timeline.pushRoute({
+    path: '/',
+    name: 'presentation_home',
+    component: PresentationModeHomePage,
+    meta: { allowDirectEntry: true },
+  })
 } else {
   // auto refer to the anonymous welcome page
   timeline.pushRoute({
     path: '/',
     name: 'landing',
-    redirect: { name: 'welcome_anonymous' },
+    redirect: {
+      name: 'welcome_anonymous',
+    },
     meta: { allowDirectEntry: true },
   })
 }
@@ -69,7 +78,10 @@ timeline.pushSeqRoute({
   path: '/welcome/:service',
   name: 'welcome_referred',
   component: Advertisement,
-  meta: { next: 'consent', allowDirectEntry: true }, // override what is next
+  meta: {
+    next: 'consent',
+    allowDirectEntry: true,
+  }, // override what is next
   beforeEnter: (to) => {
     processQuery(to.query, to.params.service)
   },
@@ -174,7 +186,6 @@ timeline.pushSeqRoute({
 //   // meta: { label: "taskOrder", orders: {AFirst: ["task1", "task2"], BFirst: ["task2", "task1"]} }
 // })
 
-
 // debriefing form
 timeline.pushSeqRoute({
   path: '/debrief',
@@ -208,12 +219,14 @@ timeline.pushRoute({
 })
 
 // this is a special route with config/debugging information
-timeline.pushRoute({
-  path: '/config',
-  name: 'config',
-  component: Config,
-  meta: { allowDirectEntry: true },
-})
+if (appconfig.mode !== 'presentation') {
+  timeline.pushRoute({
+    path: '/config',
+    name: 'config',
+    component: Config,
+    meta: { allowDirectEntry: true },
+  })
+}
 
 // 3. add navigation guards
 //    currently these check if user is known
@@ -221,9 +234,14 @@ timeline.pushRoute({
 function addGuards(r) {
   r.beforeEach((to, from) => {
     // Set queries to be combination of from queries and to queries (TO overwrites FROM if there is one with the same key)
-    const newQueries = { ...from.query, ...to.query }
+    // Also add queries that come before the URL
+    const newQueries = {
+      ...from.query,
+      ...to.query,
+      ...getQueryParams(),
+    }
     to.query = newQueries
-
+    // console.log('query params', to.query)
     // console.log('loading', to.name)
     // console.log('from', from.name)
     // console.log('allowDirectEntry', to.meta.allowDirectEntry)
@@ -234,28 +252,52 @@ function addGuards(r) {
       smilestore.loadData()
     }
 
-    // if you're going to an always-allowed route or if you're in jumping mode, allow the new route
-    if (
-      to.meta.allowDirectEntry ||
-      (smilestore.config.mode === 'development' &&
-        smilestore.local.allowJumps) ||
-      (to.name === 'welcome_anonymous' &&
-        from.name === undefined &&
-        !smilestore.isKnownUser)
-    ) {
+    // if you're going to an always-allowed route, allow it
+    if (to.meta.allowDirectEntry) {
       smilestore.setLastRoute(to.name)
       smilestore.recordRoute(to.name)
       return true
     }
+
+    // if you're trying to go to the welcome screen and you're not a known user, allow it
+    if (to.name === 'welcome_anonymous' && from.name === undefined && !smilestore.isKnownUser) {
+      smilestore.setLastRoute(to.name)
+      smilestore.recordRoute(to.name)
+      return true
+    }
+
     // if you're trying to go to the next route, allow it
-    if (from.meta.next === to.name) {
+    if (from.meta !== undefined && from.meta.next === to.name) {
       smilestore.setLastRoute(to.name)
       smilestore.recordRoute(to.name)
       return true
     }
+
+    // if you're in jumping mode
+    // or you're in presentation mode allow the new route
+    if (
+      (smilestore.config.mode === 'development' && smilestore.local.allowJumps) ||
+      smilestore.config.mode === 'presentation'
+    ) {
+      console.warn(
+        'WARNING: allowing direct, out-of-order navigation to',
+        to.name,
+        to.meta.allowDirectEntry,
+        '.  This is allowed in development/presentation mode but not in production.'
+      )
+      smilestore.setLastRoute(to.name)
+      smilestore.recordRoute(to.name)
+      return true
+    }
+
     // if the next route is a subtimeline and you're trying to go to a subtimeline route, allow it
     // this is necessary because from.meta.next won't immediately get the subroute as next when the subtimeline is randomized
-    if (from.meta.next.type === 'randomized_sub_timeline' && to.meta.subroute) {
+    if (
+      from.meta !== undefined &&
+      from.meta.next !== undefined &&
+      from.meta.next.type === 'randomized_sub_timeline' &&
+      to.meta.subroute
+    ) {
       smilestore.setLastRoute(to.name)
       smilestore.recordRoute(to.name)
       return true
@@ -266,14 +308,23 @@ function addGuards(r) {
     }
     // if you're a known user (and not trying to go to the next or same route), send back to most recent route
     if (smilestore.isKnownUser) {
-      return { name: smilestore.lastRoute, replace: true }
+      return {
+        name: smilestore.lastRoute,
+        replace: true,
+      }
     }
     if (!smilestore.isKnownUser && to.name === 'landing') {
-      return { name: 'welcome_anonymous', replace: true }
+      return {
+        name: 'welcome_anonymous',
+        replace: true,
+      }
     }
     if (to.name !== 'welcome_anonymous') {
       // otherwise (for an unknown user who's not trying to go to next/same route), just send to welcome anonymous screen
-      return { name: 'welcome_anonymous', replace: true }
+      return {
+        name: 'welcome_anonymous',
+        replace: true,
+      }
     }
     return true // is this right? why is the default to allow the navigation?
   })
@@ -295,15 +346,18 @@ export const router = createRouter({
 addGuards(router) // add the guards defined above
 
 // add additional guard to set global seed before
-router.beforeResolve(to => {
+router.beforeResolve((to) => {
   const smilestore = useSmileStore()
-  if(smilestore.local.seedActive){
+  if (smilestore.local.seedActive) {
     const seedID = smilestore.getSeedID
     const seed = `${seedID}-${to.name}`
-    seedrandom(seed, { global: true });
-  } else{ // if inactive, generate a random string then re-seed
-    const newseed = uuidv4();
-    seedrandom(newseed, { global: true });
+    seedrandom(seed, { global: true })
+  } else {
+    // if inactive, generate a random string then re-seed
+    const newseed = uuidv4()
+    seedrandom(newseed, {
+      global: true,
+    })
   }
 })
 

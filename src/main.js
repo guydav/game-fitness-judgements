@@ -10,8 +10,8 @@ import { VueRecaptchaPlugin } from 'vue-recaptcha/head';
 
 
 import App from '@/App.vue' // import the main app component
-import {router} from '@/router' // import the router
-import {pinia} from '@/createpinia'
+import { router } from '@/router' // import the router
+import { pinia } from '@/createpinia'
 import '@/icons' // configure fontawesome
 
 // Create the app and the data store
