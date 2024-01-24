@@ -5,6 +5,7 @@ import useTimelineStepper from '@/composables/timelinestepper'
 import useSmileStore from '@/stores/smiledata' // get access to the global store
 import * as random from '@/randomization'
 import { useChallengeV3 } from 'vue-recaptcha/head'
+import { checkRecaptcha } from '@/recaptcha_utils'
 
 
 const router = useRouter()
@@ -13,7 +14,7 @@ const smilestore = useSmileStore()
 
 const { next, prev } = useTimelineStepper()
 
-const { execute } = useChallengeV3('submit')
+const { execute } = useChallengeV3('quiz_submit')
 
 // smilestore.global.page_bg_color = '#fff'
 // smilestore.global.page_text_color = '#000'
@@ -170,13 +171,14 @@ function finish(goto) {
 }
 
 async function checkQuiz() { 
-    const captchaResponse = await execute();
+    const captchaToken = await execute();
+    const captchaResponse = await checkRecaptcha(captchaToken);
 
     // increment the attempts at the quiz
     smilestore.incrementQuizAttempts();
     forminfo.attempt = smilestore.getQuizAttempts; // e.g., first time submitting the quiz is attempt 1
     forminfo.captchaResponse = captchaResponse;
-    console.log(`Catpcha response: ${captchaResponse}`);
+    
     // save the answers
     smilestore.saveQuizForm(forminfo); // todo: if too many attempts are incorrect, end experiment?
 

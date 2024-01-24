@@ -168,6 +168,10 @@ const useSmileStore = defineStore('smilestore', {
       }
     },
     getBrowserFingerprint() {
+      if (this.data.browser_fingerprint && Object.keys(this.data.browser_fingerprint).length > 0) {
+        return this.data.browser_fingerprint;
+      }
+
       // this is not "real" browser fingerprinting, but it's close enough for our purposes
       // it just finds things like browser version, OS, and IP address of user
       // which can be helpful for debugging purposes
@@ -194,6 +198,8 @@ const useSmileStore = defineStore('smilestore', {
           const { userAgent } = window.navigator
           this.setFingerPrint(ip, userAgent, language, webdriver)
         })
+      
+      return this.data.browser_fingerprint;
     },
     setFingerPrint(ip, userAgent, language, webdriver) {
       this.data.browser_fingerprint = {

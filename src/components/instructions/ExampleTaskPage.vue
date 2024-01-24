@@ -128,6 +128,8 @@ function nextStep() {
                                 <div class="modal-content has-background-white-bis has-text-left p-4 focused-modal" >
                                     You will then answer some questions about the game described.
                                     <br>
+                                    <span class="is-italic">Note: you don't have to answer the questions during this tutorial.</span>
+                                    <br>
                                     First, you will explain the game in your own words. 
                                     <br>
                                     Next, you will answer multiple choice judgement questions about the game.

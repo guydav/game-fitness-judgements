@@ -5,6 +5,7 @@ import useSmileStore from '@/stores/smiledata' // get access to the global store
 import * as random from '@/randomization';
 import RoomPictures from '@/components/instructions/RoomPictures.vue'
 import { useChallengeV3 } from 'vue-recaptcha/head'
+import { checkRecaptcha } from '@/recaptcha_utils'
 
 import { reactive, onMounted, ref, watchEffect, watch } from 'vue';
 import SingleGameExtendedJudgment from '@/components/tasks/SingleGameExtendedJudgment.vue';
@@ -20,7 +21,7 @@ const gameTextSectionRef = ref(null);
 const judgementRef = ref(null);
 const isDisabled = ref(true);
 
-const { execute } = useChallengeV3('submit')
+const { execute } = useChallengeV3('game_responses')
 
 if (route.meta.progress) smilestore.global.progress = route.meta.progress
 
@@ -83,7 +84,8 @@ const gameIndex = ref(0);
 
 async function finish(goto) {
     console.log(`finish called with game index ${gameIndex.value}`);
-    const captchaResponse = await execute();
+    const captchaToken = await execute();
+    const captchaResponse = await checkRecaptcha(captchaToken);
 
     const gameDesc = { ...participantGames[gameIndex.value] };
     if ('text' in gameDesc) delete gameDesc.text;  
