@@ -171,20 +171,19 @@ function finish(goto) {
 }
 
 async function checkQuiz() { 
-    const captchaToken = await execute();
-    const captchaResponse = await checkRecaptcha(captchaToken);
-
     // increment the attempts at the quiz
     smilestore.incrementQuizAttempts();
     forminfo.attempt = smilestore.getQuizAttempts; // e.g., first time submitting the quiz is attempt 1
-    forminfo.captchaResponse = captchaResponse;
-    
-    // save the answers
-    smilestore.saveQuizForm(forminfo); // todo: if too many attempts are incorrect, end experiment?
 
-    smilestore.recordTimestamp(`quiz_submit_${forminfo.attempt}`);
-
-    // TODO: consider doing something conditioned on the captcha response
+    execute()
+        .then((captchaToken) => checkRecaptcha(captchaToken))
+        .then((captchaResponse) => {
+            // TODO: consider doing something conditioned on the captcha response
+            forminfo.captchaResponse = captchaResponse;
+            // save the answers
+            smilestore.saveQuizForm(forminfo); 
+            smilestore.recordTimestamp(`quiz_submit_${forminfo.attempt}`);
+        });
 
     // quiz good
     if (quizCorrect.value) {

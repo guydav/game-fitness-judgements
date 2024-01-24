@@ -84,21 +84,20 @@ const gameIndex = ref(0);
 
 async function finish(goto) {
     console.log(`finish called with game index ${gameIndex.value}`);
-    const captchaToken = await execute();
-    const captchaResponse = await checkRecaptcha(captchaToken);
+    // const captchaToken = await execute();
+    // const captchaResponse = await checkRecaptcha(captchaToken);
 
-    const gameDesc = { ...participantGames[gameIndex.value] };
+    const gameDesc = { ...participantGames[gameIndex.value], ...judgementRef.value.answers };
     if ('text' in gameDesc) delete gameDesc.text;  
 
-    // smilestore.saveData()
-    smilestore.recordSingleGameResults({
-        ...gameDesc,
-        captchaResponse,
-        ...judgementRef.value.answers,
-    });
-
-    smilestore.recordTimestamp(`game_submit_${gameIndex.value}`);
-
+    execute()
+        .then((captchaToken) => checkRecaptcha(captchaToken))
+        .then((captchaResponse) => {
+            gameDesc.captchaResponse = captchaResponse; 
+            smilestore.recordSingleGameResults(gameDesc);
+            smilestore.recordTimestamp(`game_submit_${gameIndex.value}`);
+        });
+    
     if (gameIndex.value < participantGames.length - 1) {
         gameIndex.value += 1;
         judgementRef.value.resetForm();
