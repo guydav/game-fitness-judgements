@@ -18,7 +18,9 @@ export async function checkRecaptcha(token) {
     // }
     let captchaResponse = null;
     
-    // http://127.0.0.1:5001/smile-db-test/us-central1/verifyRecaaptcha
+    // 
+    // 'https://verifyrecaptcha-eoptyjmqoa-uc.a.run.app'
+    // await axios.post('http://127.0.0.1:5001/smile-db-test/us-central1/verifyRecaptcha', {
     await axios.post('https://verifyrecaptcha-eoptyjmqoa-uc.a.run.app', {
         token,
         ip: smilestore.getBrowserFingerprint().ip

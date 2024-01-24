@@ -5,7 +5,7 @@
 // const { firestore } = require('firebase-functions');
 const {info: logInfo, error: logError} = require("firebase-functions/logger");
 const {onRequest} = require("firebase-functions/v2/https");
-const {defineSecret} = require("firebase-functions/params");
+// const {defineSecret} = require("firebase-functions/params");
 const axios = require("axios");
 const qs = require("qs");
 
@@ -14,7 +14,7 @@ const qs = require("qs");
 const admin = require("firebase-admin");
 admin.initializeApp();
 
-const recaptchaKey = defineSecret("GD1279_RECAPTCHA_SECRET_KEY");
+// const recaptchaKey = defineSecret("GD1279_RECAPTCHA_SECRET_KEY");
 
 
 exports.helloWorld = onRequest({cors: true}, (request, response) => {
@@ -57,7 +57,8 @@ exports.verifyRecaptcha = onRequest(
     },
     (req, res) => {
       const requestData = {
-        secret: recaptchaKey.value(),
+        // secret: recaptchaKey.value(),
+        secret: process.env.GD1279_RECAPTCHA_SECRET_KEY,
         response: req.body.token,
         remoteip: req.body.ip,
       };
