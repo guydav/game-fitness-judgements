@@ -182,6 +182,8 @@ async function checkQuiz() {
     // save the answers
     smilestore.saveQuizForm(forminfo); // todo: if too many attempts are incorrect, end experiment?
 
+    smilestore.recordTimestamp(`quiz_submit_${forminfo.attempt}`);
+
     // TODO: consider doing something conditioned on the captcha response
 
     // quiz good

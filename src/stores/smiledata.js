@@ -92,6 +92,7 @@ const useSmileStore = defineStore('smilestore', {
       n_real_games: 3,
       n_novel_games: 4,
       debrief_responses: {},
+      timestamps: {},
     },
     config: appconfig,
   }),
@@ -129,6 +130,7 @@ const useSmileStore = defineStore('smilestore', {
     setConsented() {
       this.data.consented = true
       this.data.starttime = fsnow()
+      this.recordTimestamp('consent')
     },
     setWithdraw(forminfo) {
       this.data.withdraw = true
@@ -305,6 +307,7 @@ const useSmileStore = defineStore('smilestore', {
     },
     recordDebriefResponses(responses) {
       this.data.debrief_responses = responses;
+      this.recordTimestamp('debrief');
     },
     loadGamesData() {
       if (this.local.gamesData === null) {
@@ -320,6 +323,9 @@ const useSmileStore = defineStore('smilestore', {
     },
     saveQuizForm(data) {
       this.data.quiz_form.push(data);
+    },
+    recordTimestamp(name) {
+      this.data.timestamps[name] = fsnow();
     },
   },
 })

@@ -97,6 +97,8 @@ async function finish(goto) {
         ...judgementRef.value.answers,
     });
 
+    smilestore.recordTimestamp(`game_submit_${gameIndex.value}`);
+
     if (gameIndex.value < participantGames.length - 1) {
         gameIndex.value += 1;
         judgementRef.value.resetForm();
