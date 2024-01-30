@@ -80,6 +80,7 @@ function sampleGames() {
 
 const participantGames = sampleGames();
 const gameIndex = ref(0);
+const gameSteps = participantGames.map((game, index) => `Game #${index + 1}`);
 
 
 async function finish(goto) {
@@ -126,7 +127,7 @@ function flipModalVisibility() {
 <template>
     <div class="page">
         <!-- TODO: change title to something more helpful (e.g. game X/N?) -->
-        <h1 class="title is-3">Game Responses</h1>
+        <h1 class="title is-3">Game Responses ({{ gameIndex + 1 }} / {{ participantGames.length }})</h1>
         
         <div class="modal" :class="{'is-active': modalVisible}" id="modal-holder" @click="flipModalVisibility()">
             <div class="modal-background"></div>
@@ -162,6 +163,10 @@ function flipModalVisibility() {
                         <div class="is-flex is-justify-content-space-between">
                             <button class="button is-light is-info" id='instructions-modal-button' @click="flipModalVisibility()">Review Instructions</button>
                             <button class="button is-success is-light" id='finish' :disabled="isDisabled" @click="finish(next())">next &nbsp;<FAIcon icon="fa-solid fa-arrow-right" /></button>
+                        </div>
+
+                        <div>
+                            <step-progress :steps="gameSteps" :current-step="gameIndex" icon-class="fa fa-check" active-color="#8900e1"></step-progress>
                         </div>
                     </div>
                     <div class="column is-3"></div>

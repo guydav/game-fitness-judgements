@@ -89,6 +89,7 @@ const useSmileStore = defineStore('smilestore', {
       paired_game_results: [],
       quiz_form: [], // array of quiz attempts
       quiz_attempts: 0,
+      quiz_passed: false,
       n_real_games: 3,
       n_novel_games: 4,
       debrief_responses: {},
@@ -320,6 +321,9 @@ const useSmileStore = defineStore('smilestore', {
     },
     incrementQuizAttempts(){
       this.data.quiz_attempts += 1;
+    },
+    recordQuizPasssed() {
+      this.data.quiz_passed = true;
     },
     saveQuizForm(data) {
       this.data.quiz_form.push(data);

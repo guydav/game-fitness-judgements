@@ -27,3 +27,4 @@ dist-ssr
 !*.secret
 /css/styles.css
 functions/.env
+data/raw/*.json

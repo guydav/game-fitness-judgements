@@ -187,11 +187,12 @@ async function checkQuiz() {
 
     // quiz good
     if (quizCorrect.value) {
+        smilestore.recordQuizPasssed()
         finish(next());
 
     // You have failed too many times :( ) {
     } else if (forminfo.attempt > 5) {
-        finish({name: 'thanks'});
+        finish(next());
 
     // Do the instructions again!
     } else {

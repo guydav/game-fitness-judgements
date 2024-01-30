@@ -4,7 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { plugin, defaultConfig } from '@formkit/vue'
 import '@formkit/themes/genesis'
 import VueGtag from 'vue-gtag' // google analytics
-import { VueRecaptchaPlugin } from 'vue-recaptcha/head';
+import { VueRecaptchaPlugin } from 'vue-recaptcha/head'
+import StepProgress from 'vue-step-progress';
+import 'vue-step-progress/dist/main.css';
 
 // import with an @ symbol are resolved by vite to ./src directory
 
@@ -38,6 +40,7 @@ app.use(VueRecaptchaPlugin, {
 
 // load any global components (these will be available in all other components)
 app.component('FAIcon', FontAwesomeIcon)
+app.component('StepProgress', StepProgress)
 
 // you "mount the app starting at the #app element"
 app.mount('#app') // start the app!
