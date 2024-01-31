@@ -166,7 +166,8 @@ function flipModalVisibility() {
                         </div>
 
                         <div>
-                            <step-progress :steps="gameSteps" :current-step="gameIndex" icon-class="fa fa-check" active-color="#8900e1"></step-progress>
+                            <progress class="progress is-info mt-3 mb-1" :value="gameIndex" :max="participantGames.length"></progress> 
+                            <div class="has-text-centered">Game {{ gameIndex + 1 }} / {{ participantGames.length }}</div>
                         </div>
                     </div>
                     <div class="column is-3"></div>
