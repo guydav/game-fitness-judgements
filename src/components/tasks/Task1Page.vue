@@ -129,12 +129,12 @@ function flipModalVisibility() {
         <!-- TODO: change title to something more helpful (e.g. game X/N?) -->
         <h1 class="title is-3">Game Responses ({{ gameIndex + 1 }} / {{ participantGames.length }})</h1>
         
-        <div class="modal" :class="{'is-active': modalVisible}" id="modal-holder" @click="flipModalVisibility()">
+        ``<div class="modal" :class="{'is-active': modalVisible}" id="modal-holder" @click="flipModalVisibility()">
             <div class="modal-background"></div>
             <div class="modal-content has-background-white-bis" >
                 <InstructionsContent :showPictures="false" :includeLastLine="false"/>
             </div>
-        </div>
+        </div>``
 
         <div class="my-2">
             <div class="one-game my-4">
